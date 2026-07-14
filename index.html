@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cashmosphere</title>
+  <meta name="description" content="Cashmosphere — Premium Cashmere, Berlin.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       1 · HERO (100vh)
+       ============================================================ -->
+  <section class="hero">
+    <img
+      class="hero__img"
+      src="assets/imagery/cm-hero-pink.jpg"
+      alt="Cashmosphere AW26 Campaign"
+    >
+    <div class="cm-grain"></div>
+    <div class="hero__scrim"></div>
+
+    <header class="hero__header">
+      <img class="hero__logo" src="assets/logo-white.png" alt="Cashmosphere">
+      <nav class="hero__nav">
+        <a class="cm-nl" style="color:#fff" href="#lookbook">Collections</a>
+        <a class="cm-nl" style="color:#fff" href="#atelier">About</a>
+        <a class="cm-nl" style="color:#fff" href="#footer">Contact</a>
+      </nav>
+      <button class="hero__hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <!-- Mobile nav overlay -->
+    <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="#lookbook" onclick="closeMobileNav()">Collections</a>
+      <a href="#atelier"  onclick="closeMobileNav()">About</a>
+      <a href="#footer"   onclick="closeMobileNav()">Contact</a>
+    </nav>
+
+    <a class="cm-cta hero__cta" href="#lookbook">
+      Explore the collection <span class="ar">→</span>
+    </a>
+
+    <span class="hero__scroll">Scroll</span>
+  </section>
+
+
+  <!-- ============================================================
+       2 · LOOKBOOK — horizontal scroll
+       ============================================================ -->
+  <section id="lookbook" class="lookbook">
+    <div class="lookbook__header">
+      <h2 class="lookbook__title">Summer '27</h2>
+      <span class="lookbook__hint">
+        <span class="lookbook__hint-scroll">Drag to scroll</span><span class="lookbook__hint-dot"> · </span><span class="lookbook__hint-count">05 looks</span>
+        <span class="lookbook__hint-mobile">SWIPE</span>
+      </span>
+    </div>
+
+    <div class="lookbook__track" id="lookbookTrack">
+
+      <figure class="lookbook__card">
+        <div class="lookbook__card-img-wrap">
+          <img src="assets/imagery/cm-look-1.jpg" alt="Look 01 — Lace-Pattern Pullover in Rose">
+        </div>
+        <figcaption class="lookbook__caption">
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">01 · Lace-Pattern Pullover</span><span class="lookbook__caption-short">01 PULLOVER</span></span>
+          <span class="lookbook__caption-color">Rose</span>
+        </figcaption>
+      </figure>
+
+      <figure class="lookbook__card">
+        <div class="lookbook__card-img-wrap">
+          <img src="assets/imagery/cm-look-2.jpg" alt="Look 02 — Boxy Cardigan in Rose">
+        </div>
+        <figcaption class="lookbook__caption">
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">02 · Boxy Cardigan</span><span class="lookbook__caption-short">02 CARDIGAN</span></span>
+          <span class="lookbook__caption-color">Rose</span>
+        </figcaption>
+      </figure>
+
+      <figure class="lookbook__card">
+        <div class="lookbook__card-img-wrap">
+          <img src="assets/imagery/cm-look-3.jpg" alt="Look 03 — Sheer Slip Set in Butter">
+        </div>
+        <figcaption class="lookbook__caption">
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">03 · Sheer Slip Set</span><span class="lookbook__caption-short">03 SLIP SET</span></span>
+          <span class="lookbook__caption-color">Butter</span>
+        </figcaption>
+      </figure>
+
+      <figure class="lookbook__card">
+        <div class="lookbook__card-img-wrap">
+          <img src="assets/imagery/cm-look-4.jpg" alt="Look 04 — Sheer Slip Set in Butter">
+        </div>
+        <figcaption class="lookbook__caption">
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">04 · Sheer Slip Set</span><span class="lookbook__caption-short">04 SLIP SET</span></span>
+          <span class="lookbook__caption-color">Butter</span>
+        </figcaption>
+      </figure>
+
+      <figure class="lookbook__card">
+        <div class="lookbook__card-img-wrap">
+          <img src="assets/imagery/cm-look-5.jpg" alt="Look 05 — Boxy Cardigan in Rose">
+        </div>
+        <figcaption class="lookbook__caption">
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">05 · Boxy Cardigan</span><span class="lookbook__caption-short">05 CARDIGAN</span></span>
+          <span class="lookbook__caption-color">Rose</span>
+        </figcaption>
+      </figure>
+
+    </div>
+
+    <div class="lookbook__progress">
+      <div class="lookbook__thumb" id="lookbookThumb"></div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       3 · FULLSCREEN BANNER — campaign (100vh)
+       ============================================================ -->
+  <section class="banner banner--campaign">
+    <picture>
+      <source media="(max-width: 768px)" srcset="assets/imagery/cm-campaign-mobile.jpg">
+      <img
+        class="banner__img banner__img--campaign"
+        src="assets/imagery/cm-look-3-yellow.jpg"
+        alt=""
+      >
+    </picture>
+    <div class="cm-grain"></div>
+    <div class="banner__scrim"></div>
+    <div class="banner__center">
+      <a class="cm-cta" style="color:#fff" href="#split1">
+        See the campaign <span class="ar">→</span>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       4 · SPLIT SCREEN — two images (100vh)
+       ============================================================ -->
+  <section id="split1" class="split">
+    <div class="split__tile">
+      <img src="assets/imagery/cm-hero.jpg" alt="">
+    </div>
+    <div class="split__tile">
+      <img
+        src="assets/imagery/cm-split-1b.jpg"
+        alt=""
+        style="object-position: 50% 0%"
+      >
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       5 · FULLSCREEN BANNER — above atelier (100vh)
+       ============================================================ -->
+  <section class="banner">
+    <img
+      class="banner__img"
+      src="assets/imagery/cm-atelier-banner.jpg"
+      alt=""
+      style="object-position: 50% 28%"
+    >
+    <div class="cm-grain"></div>
+  </section>
+
+
+  <!-- ============================================================
+       6 · ATELIER MODULE
+       ============================================================ -->
+  <section id="atelier" class="atelier">
+    <div class="atelier__image cm-tile">
+      <img src="assets/imagery/cm-atelier-facade.png" alt="Cashmosphere Atelier, Berlin">
+    </div>
+    <div class="atelier__text">
+      <div class="atelier__inner">
+        <span class="atelier__eyebrow">The atelier</span>
+        <p class="atelier__body">
+          Discover the Cashmosphere atelier. A quiet space to explore
+          our collections, experience the craftsmanship, and feel the
+          softness of every piece.
+        </p>
+        <div class="atelier__cta">
+          <a class="cm-cta" href="#footer">
+            Plan a visit <span class="ar">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       7 · BANNER — below atelier (50vh)
+       ============================================================ -->
+  <section class="banner banner--half banner--bw" style="background: var(--clr-tile-cool)">
+    <img
+      class="banner__img"
+      src="assets/imagery/cm-banner-bw-4.jpg"
+      alt=""
+    >
+    <div class="cm-grain"></div>
+  </section>
+
+
+  <!-- ============================================================
+       8 · FOOTER
+       ============================================================ -->
+  <footer id="footer" class="footer">
+    <div class="footer__grid">
+
+      <!-- Newsletter -->
+      <div class="footer__newsletter">
+        <h3 class="footer__newsletter-heading">Sign up for the softest news</h3>
+        <p class="footer__newsletter-body">
+          Receive access to our latest collections and news.
+        </p>
+        <form class="footer__form" onsubmit="return false">
+          <input
+            class="footer__input"
+            type="email"
+            placeholder="Email address"
+            aria-label="Email address"
+          >
+          <a class="footer__submit" href="#footer" aria-label="Sign up">→</a>
+        </form>
+      </div>
+
+      <!-- Nav col 1 -->
+      <nav class="footer__nav" aria-label="Footer navigation">
+        <a class="cm-fl" href="#atelier">About</a>
+        <a class="cm-fl" href="#footer">Stores</a>
+        <a class="cm-fl" href="#footer">Book An Appointment</a>
+      </nav>
+
+      <!-- Nav col 2 -->
+      <nav class="footer__nav" aria-label="Social media">
+        <a class="cm-fl" href="#footer">Instagram</a>
+        <a class="cm-fl" href="#footer">Facebook</a>
+      </nav>
+
+    </div>
+
+    <!-- Full-width wordmark -->
+    <svg
+      class="footer__wordmark"
+      viewBox="0 0 1000 108"
+      preserveAspectRatio="xMinYMid meet"
+      aria-hidden="true"
+    >
+      <text
+        x="0" y="92"
+        textLength="1000"
+        lengthAdjust="spacingAndGlyphs"
+        style="font-family:'Gotham','Century Gothic',Arial,sans-serif;font-weight:700;font-size:120px;fill:#222"
+      >CASHMOSPHERE</text>
+    </svg>
+
+    <!-- Legal row -->
+    <div class="footer__legal">
+      <nav class="footer__legal-nav" aria-label="Legal">
+        <a class="cm-fl footer__legal-link" href="#footer">Imprint</a>
+        <a class="cm-fl footer__legal-link" href="#footer">Privacy Policy</a>
+        <a class="cm-fl footer__legal-link" href="#footer">Terms &amp; Conditions</a>
+      </nav>
+      <span class="footer__copyright">© 2026 Cashmosphere Berlin</span>
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       JS — Hamburger nav
+       ============================================================ -->
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+
+    function closeMobileNav() {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+    }
+
+    hamburger.addEventListener('click', function () {
+      const isOpen = mobileNav.classList.toggle('open');
+      hamburger.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen);
+      mobileNav.setAttribute('aria-hidden', !isOpen);
+    });
+  </script>
+
+  <!-- ============================================================
+       JS — Lookbook scroll-progress bar
+       ============================================================ -->
+  <script>
+    (function () {
+      const track = document.getElementById('lookbookTrack');
+      const thumb = document.getElementById('lookbookThumb');
+      if (!track || !thumb) return;
+
+      function updateThumb() {
+        const max = track.scrollWidth - track.clientWidth;
+        const pct = Math.min(100, (track.clientWidth / track.scrollWidth) * 100);
+        const left = max > 0 ? (track.scrollLeft / max) * (100 - pct) : 0;
+        thumb.style.width = pct + '%';
+        thumb.style.left  = left + '%';
+      }
+
+      track.addEventListener('scroll', updateThumb, { passive: true });
+      window.addEventListener('resize', updateThumb);
+      updateThumb();
+    })();
+  </script>
+
+</body>
+</html>
