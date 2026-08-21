@@ -122,13 +122,67 @@ a { color: var(--clr-black); }
 .cm-fl:hover { opacity: .5; }
 
 /* =============================================================
+   FIXED SITE HEADER — slides in on scroll-up, over all sections
+   ============================================================= */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+  color: var(--clr-white);
+  background: linear-gradient(180deg, rgba(34,34,34,.72) 0%, rgba(34,34,34,0) 100%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.42s ease;
+}
+
+.site-header--visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.site-header__logo {
+  height: 22px;
+  width: auto;
+  margin-left: var(--logo-offset);
+}
+
+.site-header__nav {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+/* Desktop: hide hamburger in site-header */
+.site-header__hamburger { display: none; }
+
+.site-header__hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: #fff;
+  transition: transform .3s ease, opacity .3s ease;
+}
+.site-header__hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.site-header__hamburger.open span:nth-child(2) { opacity: 0; }
+.site-header__hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* =============================================================
    1 · HERO
    ============================================================= */
 .hero {
-  position: relative;
+  position: sticky;
+  top: 0;
   height: 100vh;
   overflow: hidden;
   background: var(--clr-tile-cool);
+  z-index: 1;
 }
 
 .hero__img {
@@ -162,7 +216,17 @@ a { color: var(--clr-black); }
   color: var(--clr-white);
 }
 
-.hero__logo { height: 22px; width: auto; }
+/* Nav logo — hidden until wordmark animation completes.
+   Negative margin compensates for the PNG's internal left whitespace.
+   Tweak --logo-offset if alignment needs fine-tuning. */
+:root { --logo-offset: -9px; }
+
+.hero__logo {
+  height: 22px;
+  width: auto;
+  margin-left: var(--logo-offset);
+  opacity: 0; /* JS fades this in at end of wordmark animation */
+}
 
 .hero__nav {
   display: flex;
@@ -170,24 +234,34 @@ a { color: var(--clr-black); }
   align-items: center;
 }
 
-.hero__cta {
+/* Wordmark — left-aligned, animates to nav on scroll */
+.hero__wordmark {
   position: absolute;
+  top: 50%;
   left: var(--gutter);
-  bottom: 8vh;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  font: 700 clamp(32px, 4.5vw, 65px) var(--font-base);
+  letter-spacing: .12em; /* tuned to match logo proportions */
+  text-transform: uppercase;
   color: var(--clr-white);
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 
-.hero__scroll {
-  position: absolute;
-  right: var(--gutter);
-  bottom: 8vh;
-  color: var(--clr-white);
-  font: 500 11px/1 var(--font-base);
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  opacity: .75;
-  writing-mode: vertical-rl;
+/* =============================================================
+   POST-HERO SECTIONS — stack above sticky hero
+   ============================================================= */
+.lookbook,
+.banner,
+.split,
+.atelier,
+.footer {
+  position: relative;
+  z-index: 2;
 }
+
 
 /* =============================================================
    2 · LOOKBOOK
@@ -462,11 +536,13 @@ a { color: var(--clr-black); }
 
 .footer__submit {
   color: var(--clr-black);
-  font-size: 11px;
+  font-size: 10px;
+  letter-spacing: .08em;
   text-decoration: none;
+  opacity: .4;
   transition: opacity .22s ease;
 }
-.footer__submit:hover { opacity: .5; }
+.footer__submit:hover { opacity: .8; }
 
 /* Nav columns */
 .footer__nav {
@@ -614,6 +690,19 @@ a { color: var(--clr-black); }
    ============================================================= */
 @media (max-width: 768px) {
   :root { --gutter: 24px; }
+
+  /* Site header mobile: hide nav, show hamburger */
+  .site-header__nav       { display: none; }
+  .site-header__hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 200;
+  }
 
   /* Section heights — from EB */
   .hero         { height: 70vh; }

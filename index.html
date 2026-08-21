@@ -9,6 +9,19 @@
 </head>
 <body>
 
+  <!-- Fixed site header — hidden initially, slides in on scroll-up -->
+  <header class="site-header" id="siteHeader" aria-hidden="true">
+    <img class="site-header__logo" src="assets/logo-white.png" alt="Cashmosphere">
+    <nav class="site-header__nav">
+      <a class="cm-nl" style="color:#fff" href="#lookbook">Collections</a>
+      <a class="cm-nl" style="color:#fff" href="#atelier">About</a>
+      <a class="cm-nl" style="color:#fff" href="#footer">Contact</a>
+    </nav>
+    <button class="site-header__hamburger" id="siteHamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
   <!-- ============================================================
        1 · HERO (100vh)
        ============================================================ -->
@@ -33,6 +46,9 @@
       </button>
     </header>
 
+    <!-- SVG wordmark — animates to nav logo on scroll -->
+    <div class="hero__wordmark" id="heroWordmark" aria-hidden="true">CASHMOSPHERE</div>
+
     <!-- Mobile nav overlay -->
     <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
       <a href="#lookbook" onclick="closeMobileNav()">Collections</a>
@@ -40,11 +56,7 @@
       <a href="#footer"   onclick="closeMobileNav()">Contact</a>
     </nav>
 
-    <a class="cm-cta hero__cta" href="#lookbook">
-      Explore the collection <span class="ar">→</span>
-    </a>
 
-    <span class="hero__scroll">Scroll</span>
   </section>
 
 
@@ -52,15 +64,7 @@
        2 · LOOKBOOK — horizontal scroll
        ============================================================ -->
   <section id="lookbook" class="lookbook">
-    <div class="lookbook__header">
-      <h2 class="lookbook__title">Summer '27</h2>
-      <span class="lookbook__hint">
-        <span class="lookbook__hint-scroll">Drag to scroll</span><span class="lookbook__hint-dot"> · </span><span class="lookbook__hint-count">05 looks</span>
-        <span class="lookbook__hint-mobile">SWIPE</span>
-      </span>
-    </div>
-
-    <div class="lookbook__track" id="lookbookTrack">
+<div class="lookbook__track" id="lookbookTrack">
 
       <figure class="lookbook__card">
         <div class="lookbook__card-img-wrap">
@@ -134,11 +138,6 @@
     </picture>
     <div class="cm-grain"></div>
     <div class="banner__scrim"></div>
-    <div class="banner__center">
-      <a class="cm-cta" style="color:#fff" href="#split1">
-        See the campaign <span class="ar">→</span>
-      </a>
-    </div>
   </section>
 
 
@@ -190,7 +189,7 @@
         </p>
         <div class="atelier__cta">
           <a class="cm-cta" href="#footer">
-            Plan a visit <span class="ar">→</span>
+            Plan a visit
           </a>
         </div>
       </div>
@@ -230,7 +229,7 @@
             placeholder="Email address"
             aria-label="Email address"
           >
-          <a class="footer__submit" href="#footer" aria-label="Sign up">→</a>
+          <a class="footer__submit" href="#footer" aria-label="Sign up">Submit</a>
         </form>
       </div>
 
@@ -277,24 +276,112 @@
 
 
   <!-- ============================================================
+       JS — Wordmark intro + fixed site-header on scroll-up
+       ============================================================ -->
+  <script>
+    (function () {
+      const wordmark   = document.getElementById('heroWordmark');
+      const logo       = document.querySelector('.hero__logo');
+      const siteHeader = document.getElementById('siteHeader');
+
+      const ANIM_END = 300;
+
+      let deltaY      = 0;
+      let targetScale = 0;
+      let measured    = false;
+      let lastScrollY = window.scrollY;
+
+      function easeInOut(t) {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      }
+
+      function measure() {
+        if (!wordmark || !logo) return;
+        const logoR = logo.getBoundingClientRect();
+        const wmR   = wordmark.getBoundingClientRect();
+        wordmark.style.left = logoR.left + 'px';
+        deltaY      = (wmR.top  + wmR.height  / 2) - (logoR.top + logoR.height / 2);
+        targetScale = logoR.height / wmR.height;
+        measured    = true;
+      }
+
+      function runUpdate() {
+        const scrollY = window.scrollY;
+
+        /* ── 1 · Wordmark intro ── */
+        if (wordmark && logo) {
+          if (!measured) measure();
+
+          const raw      = Math.min(1, scrollY / ANIM_END);
+          const progress = easeInOut(raw);
+
+          const ty    = -deltaY * progress;
+          const scale = 1 + (targetScale - 1) * progress;
+          wordmark.style.transform =
+            'translateY(calc(-50% + ' + ty + 'px)) scale(' + scale + ')';
+
+          /* Stay fully visible during travel; cross-fade only in last 15 % */
+          if (raw < 0.85) {
+            wordmark.style.opacity = '1';
+            logo.style.opacity     = '0';
+          } else {
+            const t = (raw - 0.85) / 0.15;
+            wordmark.style.opacity = String(Math.max(0, 1 - t));
+            logo.style.opacity     = String(Math.min(1, t));
+          }
+        }
+
+        /* ── 2 · Fixed site-header: show on scroll-up past hero ── */
+        if (siteHeader) {
+          const revealAt = window.innerHeight * 0.5;
+          if (scrollY < revealAt) {
+            siteHeader.classList.remove('site-header--visible');
+            siteHeader.setAttribute('aria-hidden', 'true');
+          } else if (scrollY < lastScrollY - 5) {
+            siteHeader.classList.add('site-header--visible');
+            siteHeader.setAttribute('aria-hidden', 'false');
+          } else if (scrollY > lastScrollY + 5) {
+            siteHeader.classList.remove('site-header--visible');
+            siteHeader.setAttribute('aria-hidden', 'true');
+          }
+        }
+
+        lastScrollY = scrollY;
+      }
+
+      window.addEventListener('scroll', runUpdate, { passive: true });
+      window.addEventListener('resize', function () { measured = false; runUpdate(); });
+      runUpdate();
+    })();
+  </script>
+
+  <!-- ============================================================
        JS — Hamburger nav
        ============================================================ -->
   <script>
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobileNav');
+    const hamburger     = document.getElementById('hamburger');
+    const siteHamburger = document.getElementById('siteHamburger');
+    const mobileNav     = document.getElementById('mobileNav');
+    const allHamburgers = [hamburger, siteHamburger].filter(Boolean);
 
     function closeMobileNav() {
-      hamburger.classList.remove('open');
       mobileNav.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
       mobileNav.setAttribute('aria-hidden', 'true');
+      allHamburgers.forEach(function (btn) {
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
     }
 
-    hamburger.addEventListener('click', function () {
-      const isOpen = mobileNav.classList.toggle('open');
-      hamburger.classList.toggle('open');
-      hamburger.setAttribute('aria-expanded', isOpen);
-      mobileNav.setAttribute('aria-hidden', !isOpen);
+    allHamburgers.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const isOpen = mobileNav.classList.toggle('open');
+        mobileNav.setAttribute('aria-hidden', !isOpen);
+        allHamburgers.forEach(function (b) {
+          b.classList.toggle('open', isOpen);
+          b.setAttribute('aria-expanded', isOpen);
+        });
+      });
     });
   </script>
 
