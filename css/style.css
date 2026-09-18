@@ -40,7 +40,17 @@
 
   --font-base: "Gotham", "Century Gothic", Arial, sans-serif;
 
-  --gutter: 5vw;
+  --gutter: clamp(20px, 5vw, 140px);
+
+  /* Caps how wide grid/row-based content (not full-bleed imagery) can
+     grow on very large / 4K screens, so it reads as deliberately
+     composed rather than a stretched-out laptop layout. */
+  --container-max: 2400px;
+
+  /* Fixed logo size — used everywhere the wordmark appears (header,
+     hero, collection pages, mega-menu). Asset is pre-trimmed to its
+     visible bounds, so no offset hacks are needed to position it. */
+  --logo-height: 12px;
 }
 
 /* --- Reset --------------------------------------------------- */
@@ -77,6 +87,11 @@ a { color: var(--clr-black); }
 .cm-tile {
   position: relative;
   overflow: hidden;
+}
+
+/* --- Black & white treatment ---------------------------------- */
+.cm-bw {
+  filter: grayscale(100%);
 }
 
 /* --- Nav link (header) --------------------------------------- */
@@ -148,9 +163,8 @@ a { color: var(--clr-black); }
 }
 
 .site-header__logo {
-  height: 22px;
+  height: var(--logo-height);
   width: auto;
-  margin-left: var(--logo-offset);
 }
 
 .site-header__nav {
@@ -216,15 +230,10 @@ a { color: var(--clr-black); }
   color: var(--clr-white);
 }
 
-/* Nav logo — hidden until wordmark animation completes.
-   Negative margin compensates for the PNG's internal left whitespace.
-   Tweak --logo-offset if alignment needs fine-tuning. */
-:root { --logo-offset: -9px; }
-
+/* Nav logo — hidden until wordmark animation completes. */
 .hero__logo {
-  height: 22px;
+  height: var(--logo-height);
   width: auto;
-  margin-left: var(--logo-offset);
   opacity: 0; /* JS fades this in at end of wordmark animation */
 }
 
@@ -431,7 +440,7 @@ a { color: var(--clr-black); }
 .atelier {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 100vh;
+  height: 100vh;
   background: var(--clr-white);
 }
 
@@ -468,7 +477,7 @@ a { color: var(--clr-black); }
 
 .atelier__body {
   font-weight: 300;
-  font-size: 18px;
+  font-size: clamp(13px, 2.4vw, 18px);
   line-height: 1.5;
   letter-spacing: -.005em;
   margin-top: 22px;
@@ -587,7 +596,7 @@ a { color: var(--clr-black); }
 }
 
 /* =============================================================
-   HAMBURGER + NAV OVERLAY (mobile only)
+   HAMBURGER + NAV OVERLAY (mobile + tablet)
    ============================================================= */
 
 /* Desktop: hide burger */
@@ -603,6 +612,57 @@ a { color: var(--clr-black); }
 .hero__hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .hero__hamburger.open span:nth-child(2) { opacity: 0; }
 .hero__hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Collection-header / contact-header burger (dark bars — sits on white bg) */
+.collection-header__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+.collection-header__hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--clr-black);
+  transition: transform .3s ease, opacity .3s ease;
+}
+.collection-header__hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.collection-header__hamburger.open span:nth-child(2) { opacity: 0; }
+.collection-header__hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Shared trigger: collapse to hamburger on BOTH tablet and mobile (≤1024px).
+   Section-specific sizing (heights, spacing) stays in its own breakpoint
+   block further down — this block only ever touches nav visibility. */
+@media (max-width: 1024px) {
+  .site-header__nav,
+  .hero__nav,
+  .collection-header__nav { display: none; }
+
+  .site-header__hamburger,
+  .hero__hamburger,
+  .collection-header__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 200;
+  }
+
+  .mobile-nav { display: flex; pointer-events: none; }
+  .mobile-nav.open { pointer-events: all; }
+}
 
 /* Mobile nav overlay */
 .mobile-nav {
@@ -620,7 +680,7 @@ a { color: var(--clr-black); }
 .mobile-nav.open { opacity: 1; }
 
 .mobile-nav a {
-  font: 300 28px/1.2 var(--font-base);
+  font: 300 clamp(22px, 4.2vw, 28px)/1.2 var(--font-base);
   letter-spacing: .08em;
   text-transform: uppercase;
   text-decoration: none;
@@ -631,6 +691,118 @@ a { color: var(--clr-black); }
 }
 .mobile-nav a:first-child { border-top: 1px solid rgba(255,255,255,.1); }
 .mobile-nav a:hover { opacity: .5; }
+
+/* Collections sub-items in mobile nav */
+.mobile-nav__label {
+  display: block;
+  font: 500 12px/1 var(--font-base);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  padding: 18px 0 6px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.mobile-nav a.mobile-nav__sub {
+  font-size: clamp(18px, 3.4vw, 22px);
+  padding: 10px 0 10px 14px;
+  border-bottom: none;
+}
+
+/* Desktop "Collections" hover mega-menu (Khaite-style: list left, previews right) */
+.cm-nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.cm-nav-dropdown > .cm-nl {
+  cursor: default;
+}
+.cm-mega-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--clr-white);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 18px 40px rgba(0,0,0,.14);
+  transition: opacity .22s ease, transform .22s ease;
+  transform: translateY(-6px);
+  z-index: 120;
+}
+.cm-nav-dropdown:hover .cm-mega-menu,
+.cm-nav-dropdown:focus-within .cm-mega-menu {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.cm-mega-menu__topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+}
+.cm-mega-menu__topbar img {
+  height: var(--logo-height);
+  width: auto;
+}
+.cm-mega-menu__topbar nav { display: flex; gap: 36px; align-items: center; }
+.cm-nl.is-active { border-bottom-color: currentColor; }
+
+/* Only one underline visible at a time: while hovering anywhere in
+   a nav row, the is-active link's underline steps aside unless it
+   is itself the one being hovered */
+.collection-header__nav:hover .cm-nl.is-active:not(:hover),
+.site-header__nav:hover .cm-nl.is-active:not(:hover),
+.hero__nav:hover .cm-nl.is-active:not(:hover),
+.cm-mega-menu__topbar nav:hover .cm-nl.is-active:not(:hover) {
+  border-bottom-color: transparent;
+}
+.cm-mega-menu__body {
+  display: flex;
+  gap: 80px;
+  padding: 8px var(--gutter) 64px;
+}
+
+.cm-mega-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 120px;
+}
+.cm-mega-menu__list a {
+  font: 500 12px/1 var(--font-base);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  text-decoration: none;
+  opacity: .7;
+  transition: opacity .2s ease;
+}
+.cm-mega-menu__list a:hover { opacity: 1; }
+.cm-mega-menu__previews {
+  display: flex;
+  gap: 20px;
+}
+.cm-mega-menu__preview { width: 200px; text-decoration: none; display: block; }
+.cm-mega-menu__preview img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  background: var(--clr-tile-warm);
+}
+.cm-mega-menu__preview span {
+  display: block;
+  margin-top: 10px;
+  font: 500 10px/1 var(--font-base);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+}
 
 /* Lookbook caption toggles — desktop default */
 .lookbook__caption-short  { display: none; }
@@ -691,18 +863,23 @@ a { color: var(--clr-black); }
 @media (max-width: 768px) {
   :root { --gutter: 24px; }
 
-  /* Site header mobile: hide nav, show hamburger */
-  .site-header__nav       { display: none; }
-  .site-header__hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    z-index: 200;
+  /* Mobile: no hero logo animation. The desktop pattern (large wordmark
+     over the hero that shrinks into the nav on scroll) is disabled
+     entirely — logo sits small and static in a single stable header
+     from first paint, exactly like the reveal-header already used
+     elsewhere in the design. */
+  .hero__wordmark { display: none; }
+  .hero__header    { display: none; }
+
+  .site-header {
+    opacity: 1;
+    pointer-events: all;
+    transform: none;
   }
+
+  /* Collection / contact header — same compact treatment as the
+     mobile hero header */
+  .collection-header { padding: 20px var(--gutter); }
 
   /* Section heights — from EB */
   .hero         { height: 70vh; }
@@ -710,29 +887,10 @@ a { color: var(--clr-black); }
   .banner--half { height: 35vh; }
   .split        { height: 40vh; }
 
-  /* Hero header */
-  .hero__nav    { display: none; }
+  /* Hero scroll indicator hidden on mobile (hero__header itself is
+     display:none above — logo/nav now live in the persistent
+     site-header instead) */
   .hero__scroll { display: none; }
-  .hero__header {
-    padding: 20px var(--gutter);
-    align-items: center;
-  }
-
-  /* Burger icon */
-  .hero__hamburger {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    z-index: 200;
-  }
-
-  /* Mobile nav overlay */
-  .mobile-nav { display: flex; pointer-events: none; }
-  .mobile-nav.open { pointer-events: all; }
 
   /* Split — side by side, focus to inner edges */
   .split__tile:first-child img { object-position: right center; }
@@ -783,7 +941,6 @@ a { color: var(--clr-black); }
   }
   .atelier__inner { max-width: 100%; }
   .atelier__body {
-    font-size: 13px;
     margin-top: 14px;
   }
   .atelier__cta { margin-top: 16px; }
@@ -817,4 +974,356 @@ a { color: var(--clr-black); }
     align-items: flex-start;
     gap: 12px;
   }
+}
+
+/* =============================================================
+   COLLECTION SUBPAGE (AW26 / SS27)
+   ============================================================= */
+.collection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+}
+
+.collection-header__logo { height: var(--logo-height); width: auto; }
+
+.collection-header__nav {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  background: var(--clr-white);
+}
+
+.collection-grid__item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: var(--clr-tile-warm);
+}
+
+.collection-grid__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter .5s ease, transform .5s ease;
+}
+
+.collection-grid__logo {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36%;
+  max-width: 180px;
+  transition: opacity .4s ease;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.25));
+}
+
+/* Desktop / true hover devices: start B/W, reveal colour + logo on hover.
+   Scoped to (hover:hover)+(pointer:fine) so touch devices never inherit
+   a "hidden until interaction" state for information that must be
+   visible immediately (colour, logo). */
+@media (hover: hover) and (pointer: fine) {
+  .collection-grid__photo { filter: grayscale(100%); }
+  .collection-grid__logo  { opacity: 0; }
+
+  .collection-grid__item:hover .collection-grid__photo {
+    filter: grayscale(0%);
+    transform: scale(1.02);
+  }
+  .collection-grid__item:hover .collection-grid__logo { opacity: .9; }
+}
+
+/* Tablet + mobile (no reliable hover): colour + logo visible from the
+   first paint, never gated behind an interaction. A very subtle tap
+   response only — no re-creation of the desktop hover. */
+@media (hover: none), (pointer: coarse) {
+  .collection-grid__photo { filter: grayscale(0%); }
+  .collection-grid__logo  { opacity: .9; }
+
+  .collection-grid__item:active .collection-grid__photo { transform: scale(0.99); }
+}
+
+.collection-empty {
+  padding: 14vh var(--gutter) 20vh;
+  text-align: center;
+}
+
+.collection-empty__eyebrow {
+  display: block;
+  font: 500 11px/1 var(--font-base);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+  margin-bottom: 18px;
+}
+
+.collection-empty__title {
+  font: 300 clamp(28px, 4vw, 40px)/1.1 var(--font-base);
+  letter-spacing: .04em;
+  color: var(--clr-black);
+}
+
+@media (max-width: 768px) {
+  .collection-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =============================================================
+   CONTACT PAGE
+   ============================================================= */
+.contact-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 5vw;
+  padding: 0 0 0 var(--gutter);
+}
+
+.contact-layout__col { display: flex; flex-direction: column; }
+
+.contact-layout__col--text {
+  flex: 0 0 42%;
+  gap: 10vh;
+}
+
+.contact-layout__col--img {
+  flex: 1;
+  gap: 10vh;
+}
+
+.contact__inner {
+  padding-top: 8vh;
+  max-width: 460px;
+}
+
+.contact__heading {
+  font: 400 13px/1.3 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  margin-bottom: 28px;
+}
+
+.contact__subheading {
+  display: block;
+  font: 400 12px/1.3 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  margin-bottom: 4px;
+}
+
+.contact__body {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: -.005em;
+  color: var(--clr-black);
+  margin-bottom: 26px;
+}
+.contact__body:last-child { margin-bottom: 0; }
+
+.contact__cta {
+  color: var(--clr-black);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s ease;
+}
+.contact__cta:hover { border-bottom-color: currentColor; }
+
+.contact-layout__img {
+  overflow: hidden;
+  background: var(--clr-tile-cool);
+}
+.contact-layout__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.contact-layout__img--a { aspect-ratio: 4 / 5; }
+.contact-layout__img--b { aspect-ratio: 5 / 4; }
+.contact-layout__img--c { aspect-ratio: 4 / 5; }
+
+@media (max-width: 900px) {
+  .contact-layout { flex-direction: column; gap: 6vh; padding: 6vh var(--gutter) 16vh; }
+  .contact-layout__col--text,
+  .contact-layout__col--img { flex: 1 1 auto; width: 100%; }
+  .contact__inner { padding-top: 4vh; max-width: 100%; }
+}
+
+/* =============================================================
+   ABOUT PAGE — two full-height rows. Each row is a simple flex
+   row in DOM order (image-then-text or text-then-image), so the
+   visual left/right side is controlled purely by markup order,
+   no row-reverse needed. Every photo is a full 100vh.
+   ============================================================= */
+.about-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: flex-start;
+}
+
+/* First row sits right under the header — match the header's own
+   top padding (34px) instead of a viewport-relative value */
+.about-row:first-of-type { padding-top: 0; }
+
+/* Text cell carries its own gutter as inner padding, so the grid
+   column boundary itself stays exactly at 50%, and the image cell
+   (0 padding) fills its half edge-to-edge with no overlap or gap */
+.about-row__text { padding: 0 var(--gutter); }
+.about-row__img  { height: 100vh; overflow: hidden; background: var(--clr-tile-cool); }
+
+.about-row__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-row .contact__inner { max-width: 640px; }
+
+.about-row:last-of-type .about-row__text { padding-bottom: 10vh; }
+
+.about-facts__text {
+  margin-top: 56px;
+  color: var(--clr-muted);
+}
+
+@media (max-width: 900px) {
+  .about-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .about-row__text {
+    padding: 6vh var(--gutter);
+  }
+  .about-row__img { height: 70vh; }
+}
+
+/* Brand DNA — structured fact list, now placed inside row 2 next
+   to the image */
+.brand-dna__list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.brand-dna__row {
+  display: flex;
+  gap: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(34,34,34,.1);
+}
+.brand-dna__row dt {
+  flex: 0 0 150px;
+  font: 400 12px/1.5 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+.brand-dna__row dd {
+  flex: 1;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: -.005em;
+  color: var(--clr-black);
+}
+
+@media (max-width: 640px) {
+  .brand-dna__row { flex-direction: column; gap: 6px; }
+  .brand-dna__row dt { flex: none; }
+}
+
+/* =============================================================
+   RESPONSIVE — LARGE DESKTOP / 4K (≥1600px)
+   ============================================================= */
+/* Full-bleed sections (hero, banner, split, atelier image) are left
+   untouched on purpose — immersive edge-to-edge imagery is part of
+   the existing editorial design and should stay that way even on
+   very large screens. Only row/grid-based content that would
+   otherwise balloon into oversized individual items or huge empty
+   gaps gets a centred max-width, so the layout still reads as
+   deliberately composed rather than a stretched laptop view. */
+@media (min-width: 1600px) {
+  .site-header,
+  .hero__header,
+  .collection-header,
+  .cm-mega-menu__topbar,
+  .cm-mega-menu__body,
+  .collection-grid,
+  .lookbook__header,
+  .lookbook__track,
+  .footer__grid,
+  .contact-layout {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Grid items themselves are already capped by the container above;
+     the aspect-ratio keeps photos proportionate at any column width. */
+  .collection-grid { width: 100%; }
+}
+
+/* =================================================================
+   LEGAL PAGES — Imprint, Privacy Policy, Terms & Conditions
+   Long-form text, single readable column, consistent with the
+   contact__heading / contact__body type scale used site-wide.
+   ============================================================= */
+.legal-page {
+  padding: 8vh var(--gutter) 18vh;
+  max-width: 760px;
+}
+
+.legal-page__meta {
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--clr-muted);
+  margin-bottom: 48px;
+}
+
+.legal-page h2 {
+  font: 400 13px/1.3 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  margin: 48px 0 16px;
+}
+.legal-page h2:first-of-type { margin-top: 0; }
+
+.legal-page p,
+.legal-page li {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: -.005em;
+  color: var(--clr-black);
+  margin-bottom: 16px;
+}
+
+.legal-page ul {
+  padding-left: 20px;
+  margin: -4px 0 16px;
+}
+.legal-page li { margin-bottom: 6px; }
+
+.legal-page address { font-style: normal; }
+
+.legal-page a {
+  color: var(--clr-black);
+  border-bottom: 1px solid currentColor;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .legal-page { padding: 6vh var(--gutter) 12vh; }
 }
