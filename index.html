@@ -13,9 +13,37 @@
   <header class="site-header" id="siteHeader" aria-hidden="true">
     <img class="site-header__logo" src="assets/logo-white.png" alt="Cashmosphere">
     <nav class="site-header__nav">
-      <a class="cm-nl" style="color:#fff" href="#lookbook">Collections</a>
-      <a class="cm-nl" style="color:#fff" href="#atelier">About</a>
-      <a class="cm-nl" style="color:#fff" href="#footer">Contact</a>
+      <div class="cm-nav-dropdown">
+        <a class="cm-nl" style="color:#fff" href="collection-aw26.html">Collections</a>
+        <div class="cm-mega-menu">
+          <div class="cm-mega-menu__topbar">
+            <a href="index.html"><img src="assets/logo.png" alt="Cashmosphere"></a>
+            <nav>
+              <a href="collection-aw26.html" class="cm-nl is-active">Collections</a>
+              <a href="about.html" class="cm-nl">About</a>
+              <a href="contact.html" class="cm-nl">Appointment</a>
+            </nav>
+          </div>
+          <div class="cm-mega-menu__body">
+            <div class="cm-mega-menu__list">
+              <a href="collection-aw26.html">AW26</a>
+              <a href="collection-ss27.html">SS27</a>
+            </div>
+            <div class="cm-mega-menu__previews">
+              <a class="cm-mega-menu__preview" href="collection-aw26.html">
+                <img src="assets/imagery/cm-hero.jpg" alt="AW26">
+                <span>AW26</span>
+              </a>
+              <a class="cm-mega-menu__preview" href="collection-ss27.html">
+                <img src="assets/imagery/cm-ss27-04.jpg" alt="SS27">
+                <span>SS27</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="cm-nl" style="color:#fff" href="about.html">About</a>
+      <a class="cm-nl" style="color:#fff" href="contact.html">Appointment</a>
     </nav>
     <button class="site-header__hamburger" id="siteHamburger" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -28,8 +56,8 @@
   <section class="hero">
     <img
       class="hero__img"
-      src="assets/imagery/cm-hero-pink.jpg"
-      alt="Cashmosphere AW26 Campaign"
+      src="assets/imagery/cm-hero.jpg"
+      alt="Cashmosphere HW Campaign"
     >
     <div class="cm-grain"></div>
     <div class="hero__scrim"></div>
@@ -37,9 +65,37 @@
     <header class="hero__header">
       <img class="hero__logo" src="assets/logo-white.png" alt="Cashmosphere">
       <nav class="hero__nav">
-        <a class="cm-nl" style="color:#fff" href="#lookbook">Collections</a>
-        <a class="cm-nl" style="color:#fff" href="#atelier">About</a>
-        <a class="cm-nl" style="color:#fff" href="#footer">Contact</a>
+        <div class="cm-nav-dropdown">
+          <a class="cm-nl" style="color:#fff" href="collection-aw26.html">Collections</a>
+          <div class="cm-mega-menu">
+            <div class="cm-mega-menu__topbar">
+              <a href="index.html"><img src="assets/logo.png" alt="Cashmosphere"></a>
+              <nav>
+                <a href="collection-aw26.html" class="cm-nl is-active">Collections</a>
+                <a href="about.html" class="cm-nl">About</a>
+                <a href="contact.html" class="cm-nl">Appointment</a>
+              </nav>
+            </div>
+            <div class="cm-mega-menu__body">
+              <div class="cm-mega-menu__list">
+              <a href="collection-aw26.html">AW26</a>
+                <a href="collection-ss27.html">SS27</a>
+              </div>
+              <div class="cm-mega-menu__previews">
+                <a class="cm-mega-menu__preview" href="collection-aw26.html">
+                  <img src="assets/imagery/cm-hero.jpg" alt="AW26">
+                  <span>AW26</span>
+                </a>
+                <a class="cm-mega-menu__preview" href="collection-ss27.html">
+                  <img src="assets/imagery/cm-ss27-04.jpg" alt="SS27">
+                  <span>SS27</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="cm-nl" style="color:#fff" href="about.html">About</a>
+        <a class="cm-nl" style="color:#fff" href="contact.html">Appointment</a>
       </nav>
       <button class="hero__hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -51,9 +107,11 @@
 
     <!-- Mobile nav overlay -->
     <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
-      <a href="#lookbook" onclick="closeMobileNav()">Collections</a>
-      <a href="#atelier"  onclick="closeMobileNav()">About</a>
-      <a href="#footer"   onclick="closeMobileNav()">Contact</a>
+      <span class="mobile-nav__label">Collections</span>
+      <a href="collection-aw26.html" class="mobile-nav__sub">AW26</a>
+      <a href="collection-ss27.html" class="mobile-nav__sub">SS27</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Appointment</a>
     </nav>
 
 
@@ -61,58 +119,58 @@
 
 
   <!-- ============================================================
-       2 · LOOKBOOK — horizontal scroll
+       2 · PRODUCT ROW — Freisteller (5-across)
        ============================================================ -->
-  <section id="lookbook" class="lookbook">
-<div class="lookbook__track" id="lookbookTrack">
+  <section id="product-row" class="lookbook">
+    <div class="lookbook__track" id="lookbookTrack">
 
       <figure class="lookbook__card">
         <div class="lookbook__card-img-wrap">
-          <img src="assets/imagery/cm-look-1.jpg" alt="Look 01 — Lace-Pattern Pullover in Rose">
+          <img src="assets/imagery/cm-product-1.jpg" alt="Cashmosphere Poncho in Grey">
         </div>
         <figcaption class="lookbook__caption">
-          <span class="lookbook__caption-name"><span class="lookbook__caption-full">01 · Lace-Pattern Pullover</span><span class="lookbook__caption-short">01 PULLOVER</span></span>
-          <span class="lookbook__caption-color">Rose</span>
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">01 · Poncho</span><span class="lookbook__caption-short">01 PONCHO</span></span>
+          <span class="lookbook__caption-color">Grey</span>
         </figcaption>
       </figure>
 
       <figure class="lookbook__card">
         <div class="lookbook__card-img-wrap">
-          <img src="assets/imagery/cm-look-2.jpg" alt="Look 02 — Boxy Cardigan in Rose">
+          <img src="assets/imagery/cm-product-2.jpg" alt="Cashmosphere Cardigan in Beige">
         </div>
         <figcaption class="lookbook__caption">
-          <span class="lookbook__caption-name"><span class="lookbook__caption-full">02 · Boxy Cardigan</span><span class="lookbook__caption-short">02 CARDIGAN</span></span>
-          <span class="lookbook__caption-color">Rose</span>
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">02 · Cardigan</span><span class="lookbook__caption-short">02 CARDIGAN</span></span>
+          <span class="lookbook__caption-color">Beige</span>
         </figcaption>
       </figure>
 
       <figure class="lookbook__card">
         <div class="lookbook__card-img-wrap">
-          <img src="assets/imagery/cm-look-3.jpg" alt="Look 03 — Sheer Slip Set in Butter">
+          <img src="assets/imagery/cm-product-3.jpg" alt="Cashmosphere Knit Shorts in Grey">
         </div>
         <figcaption class="lookbook__caption">
-          <span class="lookbook__caption-name"><span class="lookbook__caption-full">03 · Sheer Slip Set</span><span class="lookbook__caption-short">03 SLIP SET</span></span>
-          <span class="lookbook__caption-color">Butter</span>
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">03 · Knit Shorts</span><span class="lookbook__caption-short">03 SHORTS</span></span>
+          <span class="lookbook__caption-color">Grey</span>
         </figcaption>
       </figure>
 
       <figure class="lookbook__card">
         <div class="lookbook__card-img-wrap">
-          <img src="assets/imagery/cm-look-4.jpg" alt="Look 04 — Sheer Slip Set in Butter">
+          <img src="assets/imagery/cm-product-4.jpg" alt="Cashmosphere Turtleneck in Cream">
         </div>
         <figcaption class="lookbook__caption">
-          <span class="lookbook__caption-name"><span class="lookbook__caption-full">04 · Sheer Slip Set</span><span class="lookbook__caption-short">04 SLIP SET</span></span>
-          <span class="lookbook__caption-color">Butter</span>
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">04 · Turtleneck</span><span class="lookbook__caption-short">04 TURTLENECK</span></span>
+          <span class="lookbook__caption-color">Cream</span>
         </figcaption>
       </figure>
 
       <figure class="lookbook__card">
         <div class="lookbook__card-img-wrap">
-          <img src="assets/imagery/cm-look-5.jpg" alt="Look 05 — Boxy Cardigan in Rose">
+          <img src="assets/imagery/cm-product-5.jpg" alt="Cashmosphere Polo Sweater in Grey">
         </div>
         <figcaption class="lookbook__caption">
-          <span class="lookbook__caption-name"><span class="lookbook__caption-full">05 · Boxy Cardigan</span><span class="lookbook__caption-short">05 CARDIGAN</span></span>
-          <span class="lookbook__caption-color">Rose</span>
+          <span class="lookbook__caption-name"><span class="lookbook__caption-full">05 · Polo Sweater</span><span class="lookbook__caption-short">05 POLO</span></span>
+          <span class="lookbook__caption-color">Grey</span>
         </figcaption>
       </figure>
 
@@ -125,41 +183,64 @@
 
 
   <!-- ============================================================
-       3 · FULLSCREEN BANNER — campaign (100vh)
+       3 · SPLIT SCREEN A — bent pose + b/w knit macro (100vh)
        ============================================================ -->
-  <section class="banner banner--campaign">
-    <picture>
-      <source media="(max-width: 768px)" srcset="assets/imagery/cm-campaign-mobile.jpg">
-      <img
-        class="banner__img banner__img--campaign"
-        src="assets/imagery/cm-look-3-yellow.jpg"
-        alt=""
-      >
-    </picture>
-    <div class="cm-grain"></div>
-    <div class="banner__scrim"></div>
+  <section class="split">
+    <div class="split__tile">
+      <img src="assets/imagery/cm-split-2a.jpg" alt="">
+    </div>
+    <div class="split__tile">
+      <img src="assets/imagery/cm-split-2b-bw.jpg" alt="">
+    </div>
   </section>
 
 
   <!-- ============================================================
-       4 · SPLIT SCREEN — two images (100vh)
+       4 · SPLIT SCREEN B — still life + side profile (100vh)
+       ============================================================ -->
+  <section class="split">
+    <div class="split__tile">
+      <img src="assets/imagery/cm-split-2a-alt.jpg" alt="" class="cm-bw">
+    </div>
+    <div class="split__tile">
+      <img src="assets/imagery/cm-split-3b.jpg" alt="">
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       5 · FULLSCREEN BANNER — lounge (100vh)
+       ============================================================ -->
+  <section class="banner">
+    <img
+      class="banner__img"
+      src="assets/imagery/cm-lounge.jpg"
+      alt=""
+      style="object-position: 50% 35%"
+    >
+    <div class="cm-grain"></div>
+  </section>
+
+
+  <!-- ============================================================
+       6 · SPLIT SCREEN C — blue cardigan, full + detail (100vh)
        ============================================================ -->
   <section id="split1" class="split">
     <div class="split__tile">
-      <img src="assets/imagery/cm-hero.jpg" alt="">
+      <img src="assets/imagery/cm-split-1a.jpg" alt="">
     </div>
     <div class="split__tile">
       <img
         src="assets/imagery/cm-split-1b.jpg"
         alt=""
-        style="object-position: 50% 0%"
+        style="object-position: 50% 50%"
       >
     </div>
   </section>
 
 
   <!-- ============================================================
-       5 · FULLSCREEN BANNER — above atelier (100vh)
+       7 · FULLSCREEN BANNER — above atelier (100vh)
        ============================================================ -->
   <section class="banner">
     <img
@@ -173,11 +254,11 @@
 
 
   <!-- ============================================================
-       6 · ATELIER MODULE
+       8 · ATELIER MODULE
        ============================================================ -->
   <section id="atelier" class="atelier">
     <div class="atelier__image cm-tile">
-      <img src="assets/imagery/cm-atelier-facade.png" alt="Cashmosphere Atelier, Berlin">
+      <img src="assets/imagery/cm-atelier.jpg" alt="Cashmosphere Atelier">
     </div>
     <div class="atelier__text">
       <div class="atelier__inner">
@@ -188,8 +269,8 @@
           softness of every piece.
         </p>
         <div class="atelier__cta">
-          <a class="cm-cta" href="#footer">
-            Plan a visit
+          <a class="cm-cta" href="about.html">
+            Learn more
           </a>
         </div>
       </div>
@@ -198,20 +279,7 @@
 
 
   <!-- ============================================================
-       7 · BANNER — below atelier (50vh)
-       ============================================================ -->
-  <section class="banner banner--half banner--bw" style="background: var(--clr-tile-cool)">
-    <img
-      class="banner__img"
-      src="assets/imagery/cm-banner-bw-4.jpg"
-      alt=""
-    >
-    <div class="cm-grain"></div>
-  </section>
-
-
-  <!-- ============================================================
-       8 · FOOTER
+       9 · FOOTER
        ============================================================ -->
   <footer id="footer" class="footer">
     <div class="footer__grid">
@@ -235,15 +303,15 @@
 
       <!-- Nav col 1 -->
       <nav class="footer__nav" aria-label="Footer navigation">
-        <a class="cm-fl" href="#atelier">About</a>
-        <a class="cm-fl" href="#footer">Stores</a>
-        <a class="cm-fl" href="#footer">Book An Appointment</a>
+        <a class="cm-fl" href="about.html">About</a>
+        <a class="cm-fl" href="contact.html">Book An Appointment</a>
+        <a class="cm-fl" href="mailto:info@cashmosphere.com">info@cashmosphere.com</a>
       </nav>
 
       <!-- Nav col 2 -->
       <nav class="footer__nav" aria-label="Social media">
-        <a class="cm-fl" href="#footer">Instagram</a>
-        <a class="cm-fl" href="#footer">Facebook</a>
+        <a class="cm-fl" href="https://www.instagram.com/cashmosphere__/" target="_blank" rel="noopener">Instagram</a>
+        <a class="cm-fl" href="https://www.facebook.com/cashmosphere" target="_blank" rel="noopener">Facebook</a>
       </nav>
 
     </div>
@@ -266,9 +334,9 @@
     <!-- Legal row -->
     <div class="footer__legal">
       <nav class="footer__legal-nav" aria-label="Legal">
-        <a class="cm-fl footer__legal-link" href="#footer">Imprint</a>
-        <a class="cm-fl footer__legal-link" href="#footer">Privacy Policy</a>
-        <a class="cm-fl footer__legal-link" href="#footer">Terms &amp; Conditions</a>
+        <a class="cm-fl footer__legal-link" href="imprint.html">Imprint</a>
+        <a class="cm-fl footer__legal-link" href="privacy.html">Privacy Policy</a>
+        <a class="cm-fl footer__legal-link" href="terms.html">Terms &amp; Conditions</a>
       </nav>
       <span class="footer__copyright">© 2026 Cashmosphere Berlin</span>
     </div>
@@ -283,6 +351,7 @@
       const wordmark   = document.getElementById('heroWordmark');
       const logo       = document.querySelector('.hero__logo');
       const siteHeader = document.getElementById('siteHeader');
+      const mobileMQ   = window.matchMedia('(max-width: 768px)');
 
       const ANIM_END = 300;
 
@@ -305,10 +374,30 @@
         measured    = true;
       }
 
+      /* On mobile there is no wordmark intro and no scroll-reveal header —
+         the single stable header (site-header) is forced visible via CSS.
+         Skip all of the related measurement/scroll work entirely rather
+         than fighting the CSS with leftover inline styles. */
+      function applyMobileState() {
+        if (wordmark) wordmark.style.transform = '';
+        if (wordmark) wordmark.style.opacity   = '';
+        if (logo)     logo.style.opacity       = '';
+        if (siteHeader) {
+          siteHeader.classList.add('site-header--visible');
+          siteHeader.setAttribute('aria-hidden', 'false');
+        }
+      }
+
       function runUpdate() {
+        if (mobileMQ.matches) {
+          applyMobileState();
+          lastScrollY = window.scrollY;
+          return;
+        }
+
         const scrollY = window.scrollY;
 
-        /* ── 1 · Wordmark intro ── */
+        /* ── 1 · Wordmark intro (desktop/tablet only) ── */
         if (wordmark && logo) {
           if (!measured) measure();
 
@@ -351,6 +440,9 @@
 
       window.addEventListener('scroll', runUpdate, { passive: true });
       window.addEventListener('resize', function () { measured = false; runUpdate(); });
+      if (mobileMQ.addEventListener) {
+        mobileMQ.addEventListener('change', function () { measured = false; runUpdate(); });
+      }
       runUpdate();
     })();
   </script>
