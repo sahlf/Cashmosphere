@@ -1327,3 +1327,705 @@ a { color: var(--clr-black); }
 @media (max-width: 900px) {
   .legal-page { padding: 6vh var(--gutter) 12vh; }
 }
+
+/* --- Logo links (index hero + sticky header) ------------------ */
+.hero__logo-link,
+.site-header__logo-link {
+  display: flex;
+  line-height: 0;
+}
+
+/* --- Footer: Instagram CTA (replaces newsletter form until Klaviyo is live) */
+.footer__form--ig {
+  color: var(--clr-black);
+  text-decoration: none;
+}
+.footer__form--ig .footer__input { white-space: nowrap; }
+.footer__form--ig:hover .footer__submit,
+.footer__form--ig:focus-visible .footer__submit { opacity: .8; }
+
+/* --- About: inline links (showrooms) --------------------------- */
+.about-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(34,34,34,.3);
+  transition: border-color .3s ease;
+}
+.about-link:hover { border-bottom-color: currentColor; }
+
+/* --- Homepage B/W reveal (mirrors .collection-grid behaviour) ---
+   .cm-reveal         = hover container (hero, product card, split tile, banner)
+   .cm-reveal__photo  = image that goes B/W -> colour
+   .cm-reveal__logo   = optional centred logo (not used in hero + product row) */
+.cm-reveal__photo {
+  transition: filter .5s ease, transform .5s ease;
+}
+
+/* Doubled class: .split__tile img (width/height 100% + cover) would
+   otherwise win and stretch the logo across the whole tile. */
+.cm-reveal .cm-reveal__logo {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36%;
+  height: auto;
+  object-fit: contain;
+  max-width: 180px;
+  z-index: 3;
+  pointer-events: none;
+  transition: opacity .4s ease;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.25));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cm-reveal__photo { filter: grayscale(100%); }
+  .cm-reveal__logo  { opacity: 0; }
+
+  .cm-reveal:hover .cm-reveal__photo {
+    filter: grayscale(0%);
+    transform: scale(1.02);
+  }
+  .cm-reveal:hover .cm-reveal__logo { opacity: .9; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cm-reveal__photo { filter: grayscale(0%); }
+  .cm-reveal__logo  { opacity: .9; }
+}
+
+/* Images that stay B/W permanently (logo still reveals) */
+.cm-reveal__photo.cm-bw { filter: grayscale(100%) !important; }
+
+/* --- Touch devices: scroll-focus reveal ---------------------------
+   .cm-io is set by JS only when IntersectionObserver is available,
+   so without JS everything stays in colour (safe fallback).
+   .is-focus = item currently in the centre band of the viewport.    */
+@media (max-width: 1366px) and (hover: none), (max-width: 1366px) and (pointer: coarse) {
+  .cm-io .cm-reveal__photo,
+  .cm-io .collection-grid__photo { filter: grayscale(100%); }
+
+  .cm-io .cm-reveal__logo,
+  .cm-io .collection-grid__logo  { opacity: 0; }
+
+  .cm-io .is-focus .cm-reveal__photo,
+  .cm-io .is-focus .collection-grid__photo { filter: grayscale(0%); }
+
+  .cm-io .is-focus .cm-reveal__logo,
+  .cm-io .is-focus .collection-grid__logo  { opacity: .9; }
+}
+
+/* =============================================================
+   MOBILE / TABLET FIXES (appended last so they win the cascade)
+   ============================================================= */
+
+/* Mobile nav: the base .mobile-nav {display:none} and
+   .collection-header__nav {display:flex} rules sit later in the file
+   than the ≤1024px block, so they overrode it (menu never appeared,
+   desktop nav showed on mobile sub-pages). Re-asserted here. */
+@media (max-width: 1024px) {
+  .collection-header__nav { display: none; }
+
+  .mobile-nav {
+    display: flex;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility 0s linear .3s;
+  }
+  .mobile-nav.open {
+    visibility: visible;
+    transition: opacity .3s ease, visibility 0s linear 0s;
+  }
+
+  body.nav-open { overflow: hidden; }
+}
+
+/* iOS / Android: size full-height sections to the small viewport so
+   they don't jump when the browser toolbar collapses on scroll. */
+@supports (height: 100svh) {
+  .hero, .banner, .split, .about-row__img { height: 100svh; }
+  .banner--half { height: 50svh; }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .hero, .banner, .split { height: 60svh; }
+    .banner--half { height: 40svh; }
+  }
+  @media (max-width: 900px) {
+    .about-row__img { height: 70svh; }
+  }
+  @media (max-width: 768px) {
+    .hero, .banner { height: 70svh; }
+    .banner--half  { height: 35svh; }
+    .split         { height: 40svh; }
+  }
+}
+
+/* Sub-page hamburger: dark lines would vanish on the dark overlay */
+@media (max-width: 1024px) {
+  .collection-header__hamburger { position: relative; }
+  .collection-header__hamburger.open span { background: #fff; }
+}
+
+/* =============================================================
+   MOBILE / TABLET / LARGE SCREEN — Paket B
+   ============================================================= */
+
+/* 1 · Sub-pages: header stays visible while scrolling (≤1024px) */
+@media (max-width: 1024px) {
+  .collection-header {
+    position: sticky;
+    top: 0;
+    z-index: 120;
+    background: var(--clr-white);
+  }
+}
+
+/* 2 · Mobile: full-width banners match the split height, so the
+       landscape images are cropped far less */
+@media (max-width: 768px) {
+  .banner { height: 40vh; }
+}
+@supports (height: 100svh) {
+  @media (max-width: 768px) {
+    .banner { height: 40svh; }
+  }
+}
+
+/* 3 · About, mobile: text before image in row 2
+       (reads text, image, text, image instead of two images in a row) */
+@media (max-width: 900px) {
+  .about-row + .about-row .about-row__text { order: -1; }
+  .about-row:last-of-type .about-row__text { padding-bottom: 6vh; }
+}
+
+/* 5 · Large screens: cap the product row so 4–5 cards stay visible */
+@media (min-width: 1600px) {
+  .lookbook { height: min(100vh, 860px); }
+}
+
+/* 6 · Large screens: four columns in the collection grid */
+@media (min-width: 1920px) {
+  .collection-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* 7 · Large screens: small UI type scales from 11px (1920px)
+       up to 14px (2560px and wider) */
+@media (min-width: 1920px) {
+  :root { --ui-fs: clamp(11px, calc(11px + (100vw - 1920px) * .0046875), 14px); }
+
+  .cm-nl,
+  .cm-cta,
+  .cm-fl,
+  .lookbook__hint,
+  .lookbook__caption,
+  .footer__newsletter-heading,
+  .footer__newsletter-body,
+  .footer__input,
+  .footer__submit { font-size: var(--ui-fs); }
+
+  .footer__legal-link,
+  .footer__copyright { font-size: calc(var(--ui-fs) - 1px); }
+}
+
+/* 8 · Large screens: wordmark + legal row share the footer container */
+@media (min-width: 1600px) {
+  .footer__wordmark,
+  .footer__legal {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Mobile sub-page header: the intended 20px padding (≤768 block) was
+   overridden by the base .collection-header rule further down. */
+@media (max-width: 768px) {
+  .collection-header { padding: 20px var(--gutter); }
+}
+
+/* Mobile/tablet homepage header: logo centred on the burger line,
+   same 20px padding as the sub-page header so nothing jumps between pages */
+@media (max-width: 1024px) {
+  .site-header { align-items: center; }
+}
+@media (max-width: 768px) {
+  .site-header { padding: 20px var(--gutter); }
+}
+
+/* =============================================================
+   MOBILE MENU — Khaite-style overlay (≤1024px)
+   White full-screen panel, logo left + close right on the exact
+   header line, sentence-case items with chevrons, Collections
+   drills into a sub-panel.
+   ============================================================= */
+.cm-menu { display: none; }
+
+@media (max-width: 1024px) {
+  .cm-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: var(--clr-white);
+    color: var(--clr-black);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility 0s linear .3s;
+  }
+  .cm-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .3s ease, visibility 0s linear 0s;
+  }
+}
+
+/* Top bar mirrors the page header so logo and X sit exactly where
+   logo and burger were */
+.cm-menu__top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+}
+@media (max-width: 768px) {
+  .cm-menu__top { padding: 20px var(--gutter); }
+}
+
+.cm-menu__logo { display: flex; line-height: 0; }
+.cm-menu__logo img { height: var(--logo-height); width: auto; }
+
+.cm-menu__close {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--clr-black);
+}
+.cm-menu__close span {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+}
+.cm-menu__close span:nth-child(1) { transform: translate(-50%, -50%) rotate(45deg); }
+.cm-menu__close span:nth-child(2) { transform: translate(-50%, -50%) rotate(-45deg); }
+
+/* Sliding panels */
+.cm-menu__viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.cm-menu__track {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  transition: transform .4s cubic-bezier(.4, 0, .2, 1);
+}
+.cm-menu.is-sub .cm-menu__track { transform: translateX(-50%); }
+
+.cm-menu__panel {
+  width: 50%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px var(--gutter) 40px;
+  box-sizing: border-box;
+}
+
+.cm-menu__list { list-style: none; margin: 0; padding: 0; }
+
+.cm-menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 0;
+  background: none;
+  border: 0;
+  font: 400 15px/1.3 var(--font-base);
+  letter-spacing: .01em;
+  text-transform: none;
+  text-align: left;
+  text-decoration: none;
+  color: var(--clr-black);
+  cursor: pointer;
+  transition: opacity .2s ease;
+}
+.cm-menu__item:active { opacity: .5; }
+.cm-menu__item[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.cm-menu__chev {
+  flex: none;
+  width: 7px;
+  height: 12px;
+  margin-right: 4px;
+}
+
+/* Back row in the sub-panel */
+.cm-menu__back {
+  justify-content: flex-start;
+  gap: 16px;
+  color: var(--clr-muted);
+  margin-bottom: 8px;
+}
+.cm-menu__back .cm-menu__chev {
+  margin-right: 0;
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-menu, .cm-menu.open, .cm-menu__track { transition: none; }
+}
+
+/* About, mobile: tighter start under the header (was ~85px) */
+@media (max-width: 900px) {
+  .about-row:first-of-type .about-row__text { padding-top: 32px; }
+  .about-row:first-of-type .contact__inner  { padding-top: 0; }
+}
+
+/* Contact, mobile: same 32px start under the header as About,
+   and the first image after the text is hidden (too much imagery) */
+@media (max-width: 900px) {
+  .contact-layout { padding-top: 32px; }
+  .contact-layout .contact__inner { padding-top: 0; }
+  .contact-layout__img--b { display: none; }
+}
+
+/* Contact, mobile: images full-bleed and stacked like About,
+   footer follows directly */
+@media (max-width: 900px) {
+  .contact-layout { padding: 32px 0 0; gap: 0; }
+  .contact-layout__col--text { padding: 0 var(--gutter) 6vh; gap: 0; }
+  .contact-layout__col--img  { gap: 10vh; }  /* same gap as before */
+  .contact-layout__img--a,
+  .contact-layout__img--c { aspect-ratio: auto; height: 70vh; }
+}
+@supports (height: 100svh) {
+  @media (max-width: 900px) {
+    .contact-layout__img--a,
+    .contact-layout__img--c { height: 70svh; }
+  }
+}
+
+/* Footer, mobile: Instagram CTA reduced to an underlined "Follow",
+   left-aligned; footer e-mail link removed (it's on the Contact page) */
+@media (max-width: 768px) {
+  .footer__form--ig {
+    display: inline-flex;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .footer__form--ig .footer__input { display: none; }
+  .footer__form--ig .footer__submit {
+    font-size: 11px;
+    opacity: 1;
+    padding-bottom: 4px;
+    border-bottom: 1px solid currentColor;
+  }
+  .footer__nav a[href^="mailto:"] { display: none; }
+}
+
+/* =============================================================
+   HEADER — hide on scroll-down, return on scroll-up
+   ============================================================= */
+/* Sub-pages, all screen sizes */
+.collection-header {
+  position: sticky;
+  top: 0;
+  z-index: 120;
+  background: var(--clr-white);
+  transition: transform .42s cubic-bezier(.4, 0, .2, 1);
+}
+/* transform only in the hidden state: a transform on the visible
+   header would re-anchor the fixed mega menu inside it */
+.collection-header.is-hidden { transform: translateY(-100%); }
+
+/* Homepage, mobile: header no longer forced visible — JS toggles
+   .site-header--visible (desktop/tablet already worked this way) */
+@media (max-width: 768px) {
+  .site-header {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+  }
+  .site-header.site-header--visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: none;
+  }
+}
+
+/* About + Contact (mobile + tablet ≤1024px): show the full image,
+   natural aspect ratio, no cropping */
+@media (max-width: 1024px) {
+  .about-row__img,
+  .contact-layout__img--a,
+  .contact-layout__img--b,
+  .contact-layout__img--c {
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .about-row__img img,
+  .contact-layout__img img {
+    height: auto;
+    object-fit: initial;
+  }
+}
+
+/* =============================================================
+   TABLET — Paket C
+   ============================================================= */
+
+/* 1 · Portrait tablets 901–1024px (iPad Pro 13"): About + Contact
+       stacked exactly like smaller tablets / mobile */
+@media (min-width: 901px) and (max-width: 1024px) and (orientation: portrait) {
+  .about-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .about-row__text { padding: 6vh var(--gutter); }
+  .about-row + .about-row .about-row__text { order: -1; }
+  .about-row:first-of-type .about-row__text { padding-top: 32px; }
+  .about-row:first-of-type .contact__inner  { padding-top: 0; }
+  .about-row:last-of-type .about-row__text  { padding-bottom: 6vh; }
+
+  .contact-layout { flex-direction: column; gap: 0; padding: 32px 0 0; }
+  .contact-layout__col--text,
+  .contact-layout__col--img { flex: 1 1 auto; width: 100%; }
+  .contact-layout__col--text { padding: 0 var(--gutter) 6vh; gap: 0; }
+  .contact-layout__col--img  { gap: 10vh; }
+  .contact-layout .contact__inner { padding-top: 0; max-width: 100%; }
+  .contact-layout__img--b { display: none; }
+}
+
+/* 2 · Landscape tablets / touch screens 1025–1366px: burger + mobile
+       menu instead of the hover mega menu (no hover on touch) */
+@media (min-width: 1025px) and (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+  .site-header__nav,
+  .hero__nav,
+  .collection-header__nav { display: none; }
+
+  .site-header__hamburger,
+  .hero__hamburger,
+  .collection-header__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 200;
+  }
+  .site-header { align-items: center; }
+
+  .cm-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: var(--clr-white);
+    color: var(--clr-black);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility 0s linear .3s;
+  }
+  .cm-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .3s ease, visibility 0s linear 0s;
+  }
+  body.nav-open { overflow: hidden; }
+}
+
+/* 3 · Footer: the simplified version (underlined "Follow", no e-mail)
+       on every device that uses the burger menu */
+@media (min-width: 769px) and (max-width: 1024px),
+       (min-width: 1025px) and (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+  .footer__form--ig {
+    display: inline-flex;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .footer__form--ig .footer__input { display: none; }
+  .footer__form--ig .footer__submit {
+    font-size: 11px;
+    opacity: 1;
+    padding-bottom: 4px;
+    border-bottom: 1px solid currentColor;
+  }
+  .footer__nav a[href^="mailto:"] { display: none; }
+}
+
+/* Menu on wider screens: keep the chevron close to its label */
+@media (min-width: 769px) {
+  .cm-menu__list,
+  .cm-menu__back { max-width: 520px; }
+}
+
+/* Small tablets 601–768px (e.g. iPad mini portrait): splits and banners
+   match the hero height (70svh), like the 769–1024px range where all
+   three already share 60svh. Phones ≤600px keep the compact 40svh. */
+@media (min-width: 601px) and (max-width: 768px) {
+  .split, .banner { height: 70vh; }
+}
+@supports (height: 100svh) {
+  @media (min-width: 601px) and (max-width: 768px) {
+    .split, .banner { height: 70svh; }
+  }
+}
+
+/* Footer, desktop: Instagram handle removed, "Follow" sits left on the
+   long line (burger devices keep the underlined-word version above) */
+.footer__form--ig .footer__input { display: none; }
+.footer__form--ig .footer__submit {
+  font-size: 11px;
+  opacity: 1;
+}
+.footer__form--ig:hover .footer__submit { opacity: .6; }
+
+/* Large screens: the mega menu is a flex column, so the centred
+   max-width containers shrank to their content ("CASHMOSPHERECOLLECTIONS").
+   Give them full width up to the container cap. */
+@media (min-width: 1600px) {
+  .cm-mega-menu__topbar,
+  .cm-mega-menu__body { width: 100%; }
+}
+
+/* Mega menu opened by tap (touch screens with the desktop nav) */
+.cm-nav-dropdown.is-open .cm-mega-menu {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+/* =============================================================
+   LARGE SCREENS — one alignment system
+   Everything (logo, nav, mega menu, text, Contact, footer) aligns to
+   the page gutter, like the About page already did. The 2400px
+   container cap is lifted, so the logo lines up with the About text
+   and the nav has the same distance on the right as the logo on the
+   left. Full-bleed imagery stays edge to edge.
+   ============================================================= */
+@media (min-width: 1600px) {
+  :root { --container-max: none; }
+}
+@media (min-width: 1600px) {
+  /* same flex-column shrink issue as the mega menu */
+  .lookbook__header,
+  .lookbook__track { width: 100%; }
+}
+
+/* =============================================================
+   LARGE SCREENS (≥1367px) — hover logic everywhere
+   Scroll-focus colour is for phones and tablets only. Big screens
+   always use the desktop behaviour: B/W, colour + logo on hover —
+   also on touch-capable large displays / DevTools touch emulation.
+   ============================================================= */
+@media (min-width: 1367px) {
+  .collection-grid__photo,
+  .cm-reveal__photo { filter: grayscale(100%); }
+
+  .collection-grid__logo,
+  .cm-reveal__logo { opacity: 0; }
+
+  .collection-grid__item:hover .collection-grid__photo,
+  .cm-reveal:hover .cm-reveal__photo { filter: grayscale(0%); }
+
+  .collection-grid__item:hover .collection-grid__logo,
+  .cm-reveal:hover .cm-reveal__logo { opacity: .9; }
+}
+
+/* 4K (≥2560px): larger product slider — about 3.5 cards in view */
+@media (min-width: 2560px) {
+  .lookbook { height: auto; }
+  .lookbook__track { flex: none; }
+  .lookbook__card { height: auto; }
+  .lookbook__card-img-wrap {
+    height: auto;
+    width: calc((100vw - var(--gutter)) / 3.5 - 22px);
+  }
+}
+
+/* Mega menu previews: subtle zoom on hover, image stays in its frame */
+.cm-mega-menu__img {
+  overflow: hidden;
+  background: var(--clr-tile-warm);
+}
+.cm-mega-menu__preview img {
+  transition: transform .6s cubic-bezier(.25, .1, .25, 1);
+}
+.cm-mega-menu__preview:hover img,
+.cm-mega-menu__preview:focus-visible img {
+  transform: scale(1.05);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cm-mega-menu__preview img { transition: none; }
+  .cm-mega-menu__preview:hover img,
+  .cm-mega-menu__preview:focus-visible img { transform: none; }
+}
+
+/* =============================================================
+   REDUCED MOTION — for visitors who turned on "Reduce motion"
+   No travelling wordmark, no sliding or zooming. Fades and the
+   B/W -> colour change stay (they don't move anything).
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .hero__wordmark { visibility: hidden; }
+  .hero__logo     { opacity: 1 !important; }
+
+  .site-header,
+  .collection-header,
+  .cm-mega-menu,
+  .cm-menu__track { transition: opacity .2s ease !important; }
+
+  .collection-grid__item:hover .collection-grid__photo,
+  .collection-grid__item:active .collection-grid__photo,
+  .cm-reveal:hover .cm-reveal__photo,
+  .cm-mega-menu__preview:hover img { transform: none !important; }
+}
+
+/* <picture> wrappers (WebP + fallback) must not change any layout:
+   the <img> keeps behaving as a direct child of its container */
+picture { display: contents; }
+
+/* Home: every image links to AW26 — a transparent link layer over the
+   image (keeps hover effects and layout untouched) */
+.cm-cover-link {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+.cm-cover-link:focus-visible {
+  outline: 1px solid var(--clr-white);
+  outline-offset: -8px;
+}
+.lookbook__card { position: relative; }
+.lookbook__card .cm-cover-link:focus-visible { outline-color: var(--clr-black); }
+.hero__header { z-index: 5; }   /* nav stays clickable above the hero link */
+
+/* Footer: design & development credit next to the copyright */
+.footer__credit { margin-left: 32px; }
+@media (max-width: 768px) {
+  .footer__credit { display: block; margin: 8px 0 0; }
+}
+
+/* Product slider: always in colour, on every screen size
+   (product shots on light backgrounds look washed out in B/W) */
+.lookbook__card-img-wrap .cm-reveal__photo { filter: none !important; }

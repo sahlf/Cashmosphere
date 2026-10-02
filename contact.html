@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cashmosphere — Appointment</title>
-  <meta name="description" content="Visit the Cashmosphere atelier in Berlin — book a private appointment or get in touch.">
+  <title>Cashmosphere — Contact</title>
+  <meta name="description" content="Get in touch with Cashmosphere, Berlin — for questions about our collections, press and general enquiries.">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -20,7 +20,7 @@
             <nav>
               <a href="collection-aw26.html" class="cm-nl">Collections</a>
               <a href="about.html" class="cm-nl">About</a>
-              <a href="contact.html" class="cm-nl is-active">Appointment</a>
+              <a href="contact.html" class="cm-nl is-active">Contact</a>
             </nav>
           </div>
           <div class="cm-mega-menu__body">
@@ -30,11 +30,11 @@
             </div>
             <div class="cm-mega-menu__previews">
               <a class="cm-mega-menu__preview" href="collection-aw26.html">
-                <img src="assets/imagery/cm-hero.jpg" alt="AW26">
+                <div class="cm-mega-menu__img"><img loading="lazy" decoding="async" src="assets/imagery/cm-hero.jpg" alt="AW26"></div>
                 <span>AW26</span>
               </a>
               <a class="cm-mega-menu__preview" href="collection-ss27.html">
-                <img src="assets/imagery/cm-ss27-04.jpg" alt="SS27">
+                <div class="cm-mega-menu__img"><img loading="lazy" decoding="async" src="assets/imagery/cm-ss27-04.jpg" alt="SS27"></div>
                 <span>SS27</span>
               </a>
             </div>
@@ -42,58 +42,55 @@
         </div>
       </div>
       <a class="cm-nl" href="about.html">About</a>
-      <a class="cm-nl is-active" href="contact.html">Appointment</a>
+      <a class="cm-nl is-active" href="contact.html">Contact</a>
     </nav>
     <button class="collection-header__hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </header>
 
-  <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
-    <span class="mobile-nav__label">Collections</span>
-    <a href="collection-aw26.html" class="mobile-nav__sub">AW26</a>
-    <a href="collection-ss27.html" class="mobile-nav__sub">SS27</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Appointment</a>
-  </nav>
+  <div class="cm-menu" id="cmMenu" role="dialog" aria-modal="true" aria-label="Menu" aria-hidden="true" inert>
+    <div class="cm-menu__top">
+      <a class="cm-menu__logo" href="index.html"><img src="assets/logo.png" alt="Cashmosphere"></a>
+      <button class="cm-menu__close" type="button" aria-label="Close menu"><span></span><span></span></button>
+    </div>
+    <div class="cm-menu__viewport">
+      <div class="cm-menu__track">
+        <div class="cm-menu__panel" data-panel="main">
+          <ul class="cm-menu__list">
+            <li><button class="cm-menu__item" type="button" data-open="collections" aria-expanded="false" aria-controls="cmMenuCollections">Collections <svg class="cm-menu__chev" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button></li>
+            <li><a class="cm-menu__item" href="about.html">About</a></li>
+            <li><a class="cm-menu__item" href="contact.html" aria-current="page">Contact</a></li>
+          </ul>
+        </div>
+        <div class="cm-menu__panel" data-panel="collections" id="cmMenuCollections" inert>
+          <button class="cm-menu__item cm-menu__back" type="button"><svg class="cm-menu__chev" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.2"/></svg> Collections</button>
+          <ul class="cm-menu__list">
+            <li><a class="cm-menu__item" href="collection-aw26.html">AW26</a></li>
+            <li><a class="cm-menu__item" href="collection-ss27.html">SS27</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <section class="contact-layout">
     <div class="contact-layout__col contact-layout__col--text">
       <div class="contact__inner">
-        <h1 class="contact__heading">The Berlin Atelier</h1>
+        <h1 class="contact__heading">Get in touch</h1>
 
         <p class="contact__body">
-          We are delighted to welcome you into the Cashmosphere atelier,
-          a quiet space in the heart of Berlin where craftsmanship and
-          the softness of cashmere come to life. Our doors are open for
-          walk-ins.
-        </p>
-
-        <p class="contact__body contact__address">
-          Cashmosphere Berlin<br>
-          Meinekestraße 12,<br><br>
-          10719 Berlin<br>
-          Germany
+          For questions about our collections, press requests or any
+          other enquiries, we are happy to hear from you.
         </p>
 
         <p class="contact__body">
-          <span class="contact__subheading">Opening Hours</span>
-          Monday – Friday: 10:00 – 18:00
-        </p>
-
-        <p class="contact__body">
-          We recommend reaching out ahead of your visit to ensure the
-          best possible experience.
-        </p>
-
-        <p class="contact__body">
-          <a class="contact__cta" href="tel:+493021005740">+49 30 2100 5740</a><br>
-          <a class="contact__cta" href="mailto:info@cashmosphere.com?subject=Appointment%20Request">info@cashmosphere.com</a>
+          <a class="contact__cta" href="mailto:info@cashmosphere.com">info@cashmosphere.com</a>
         </p>
       </div>
 
       <div class="contact-layout__img contact-layout__img--b">
-        <img src="assets/imagery/cm-aw26-22.jpg" alt="Cashmosphere — cable-knit detail with pearls">
+        <img loading="lazy" decoding="async" src="assets/imagery/cm-aw26-22.jpg" alt="Cashmosphere — cable-knit detail with pearls">
       </div>
     </div>
 
@@ -102,7 +99,7 @@
         <img src="assets/imagery/cm-atelier-banner.jpg" alt="Cashmosphere — empty chairs, cashmere piece">
       </div>
       <div class="contact-layout__img contact-layout__img--c">
-        <img src="assets/imagery/cm-aw26-24.jpg" alt="Cashmosphere — cardigan draped over sculpture">
+        <img loading="lazy" decoding="async" src="assets/imagery/cm-aw26-24.jpg" alt="Cashmosphere — cardigan draped over sculpture">
       </div>
     </div>
   </section>
@@ -110,18 +107,18 @@
   <footer id="footer" class="footer">
     <div class="footer__grid">
       <div class="footer__newsletter">
-        <h3 class="footer__newsletter-heading">Sign up for the softest news</h3>
+        <h3 class="footer__newsletter-heading">Follow the softest news</h3>
         <p class="footer__newsletter-body">
-          Receive access to our latest collections and news.
+          First looks at new collections, stories from the studio and news, on Instagram.
         </p>
-        <form class="footer__form" onsubmit="return false">
-          <input class="footer__input" type="email" placeholder="Email address" aria-label="Email address">
-          <a class="footer__submit" href="#footer" aria-label="Sign up">Submit</a>
-        </form>
+        <a class="footer__form footer__form--ig" href="https://www.instagram.com/cashmosphere__/" target="_blank" rel="noopener" aria-label="Follow Cashmosphere on Instagram">
+          <span class="footer__input">@cashmosphere__</span>
+          <span class="footer__submit">Follow</span>
+        </a>
       </div>
       <nav class="footer__nav" aria-label="Footer navigation">
         <a class="cm-fl" href="about.html">About</a>
-        <a class="cm-fl" href="contact.html">Book An Appointment</a>
+        <a class="cm-fl" href="contact.html">Contact</a>
         <a class="cm-fl" href="mailto:info@cashmosphere.com">info@cashmosphere.com</a>
       </nav>
       <nav class="footer__nav" aria-label="Social media">
@@ -141,20 +138,129 @@
         <a class="cm-fl footer__legal-link" href="privacy.html">Privacy Policy</a>
         <a class="cm-fl footer__legal-link" href="terms.html">Terms &amp; Conditions</a>
       </nav>
-      <span class="footer__copyright">© 2026 Cashmosphere Berlin</span>
+      <span class="footer__copyright">© 2026 Cashmosphere Berlin<span class="footer__credit">Design &amp; Development by Sarah Ahlf</span></span>
     </div>
   </footer>
 
   <script>
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobileNav');
+    (function () {
+      var menu = document.getElementById('cmMenu');
+      if (!menu) return;
+      var burgers  = ['hamburger'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+      var closeBtn = menu.querySelector('.cm-menu__close');
+      var main     = menu.querySelector('[data-panel="main"]');
+      var sub      = menu.querySelector('[data-panel="collections"]');
+      var openSub  = menu.querySelector('[data-open="collections"]');
+      var back     = menu.querySelector('.cm-menu__back');
+      var trigger  = null;
 
-    hamburger.addEventListener('click', function () {
-      const isOpen = mobileNav.classList.toggle('open');
-      mobileNav.setAttribute('aria-hidden', !isOpen);
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-    });
+      function showSub(on, kb) {
+        menu.classList.toggle('is-sub', on);
+        openSub.setAttribute('aria-expanded', String(on));
+        main.inert = on;
+        sub.inert = !on;
+        if (kb) (on ? back : openSub).focus({ preventScroll: true });
+      }
+
+      function setOpen(open, kb) {
+        menu.classList.toggle('open', open);
+        menu.classList.remove('is-sub');
+        menu.setAttribute('aria-hidden', String(!open));
+        menu.inert = !open;
+        main.inert = false;
+        sub.inert = true;
+        openSub.setAttribute('aria-expanded', 'false');
+        document.body.classList.toggle('nav-open', open);
+        burgers.forEach(function (b) { b.setAttribute('aria-expanded', String(open)); });
+        /* Move focus only for keyboard users (no focus ring on tap) */
+        if (open && kb) closeBtn.focus({ preventScroll: true });
+        else if (!open && kb && trigger) trigger.focus({ preventScroll: true });
+      }
+
+      burgers.forEach(function (b) {
+        b.addEventListener('click', function (e) { trigger = b; setOpen(true, e.detail === 0); });
+      });
+      closeBtn.addEventListener('click', function (e) { setOpen(false, e.detail === 0); });
+      openSub.addEventListener('click', function (e) { showSub(true, e.detail === 0); });
+      back.addEventListener('click', function (e) { showSub(false, e.detail === 0); });
+      menu.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', function () { setOpen(false); });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menu.classList.contains('open')) setOpen(false, true);
+      });
+      var burgerMQ = window.matchMedia('(max-width: 1024px), (max-width: 1366px) and (hover: none) and (pointer: coarse)');
+      burgerMQ.addEventListener('change', function (e) {
+        if (!e.matches && menu.classList.contains('open')) setOpen(false);
+      });
+    })();
+  </script>
+
+  <!-- ============================================================
+       JS — Header hides on scroll-down, returns on scroll-up
+       ============================================================ -->
+  <script>
+    (function () {
+      var header = document.querySelector('.collection-header');
+      if (!header) return;
+      var last = window.scrollY, ticking = false;
+      function update() {
+        ticking = false;
+        if (document.body.classList.contains('nav-open')) return;
+        var y = window.scrollY;
+        if (y <= header.offsetHeight) {
+          header.classList.remove('is-hidden'); last = y;
+        } else if (y > last + 5) {
+          header.classList.add('is-hidden'); last = y;
+        } else if (y < last - 5) {
+          header.classList.remove('is-hidden'); last = y;
+        }
+      }
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      /* Keyboard users: header comes back when it receives focus */
+      header.addEventListener('focusin', function () { header.classList.remove('is-hidden'); });
+    })();
+  </script>
+
+  <!-- ============================================================
+       JS — Touch screens with the desktop nav (e.g. large touch
+       displays, DevTools device mode): first tap on "Collections"
+       opens the mega menu, second tap follows the link
+       ============================================================ -->
+  <script>
+    (function () {
+      var noHover = window.matchMedia('(hover: none)');
+      var drops = document.querySelectorAll('.cm-nav-dropdown');
+      drops.forEach(function (d) {
+        var trigger = d.querySelector(':scope > .cm-nl');
+        if (!trigger) return;
+        var href = trigger.getAttribute('href');
+        /* On touch the menu fades in under the finger, so the tap can land
+           on the "Collections" link in the menu's own top bar instead of
+           the trigger — treat both as the same control */
+        d.addEventListener('click', function (e) {
+          if (!noHover.matches || d.classList.contains('is-open')) return;
+          var link = e.target.closest('a');
+          if (!link) return;
+          var isTrigger = link === trigger ||
+            (link.closest('.cm-mega-menu__topbar') && link.getAttribute('href') === href);
+          if (!isTrigger) return;
+          e.preventDefault();
+          drops.forEach(function (o) { o.classList.remove('is-open'); });
+          d.classList.add('is-open');
+        }, true);
+      });
+      document.addEventListener('click', function (e) {
+        drops.forEach(function (d) {
+          if (d.classList.contains('is-open') && !d.contains(e.target)) d.classList.remove('is-open');
+        });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') drops.forEach(function (d) { d.classList.remove('is-open'); });
+      });
+    })();
   </script>
 
 </body>
