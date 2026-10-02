@@ -2029,3 +2029,13 @@ picture { display: contents; }
 /* Product slider: always in colour, on every screen size
    (product shots on light backgrounds look washed out in B/W) */
 .lookbook__card-img-wrap .cm-reveal__photo { filter: none !important; }
+
+/* Banner logo: same size as on the split tiles on every screen
+   (36% of a half-width tile = 18% of the full-width banner) */
+.cm-reveal.banner .cm-reveal__logo,
+.banner.cm-reveal .cm-reveal__logo { width: 18%; }
+
+/* Collection grid, touch: no press-shrink — scaling the photo to 99%
+   exposed the tile background as a light frame around the image */
+.collection-grid__item:active .collection-grid__photo { transform: none; }
+.collection-grid__item { -webkit-tap-highlight-color: transparent; }
