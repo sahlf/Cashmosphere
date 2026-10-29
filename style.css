@@ -1,0 +1,2154 @@
+/* =============================================================
+   CASHMOSPHERE — Design Tokens & Global Styles
+   ============================================================= */
+
+/* --- Fonts --------------------------------------------------- */
+@font-face {
+  font-family: "Gotham";
+  src: url("../assets/fonts/Gotham Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("../assets/fonts/Gotham Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("../assets/fonts/Gotham Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Tokens -------------------------------------------------- */
+:root {
+  --clr-black:     #222222;
+  --clr-white:     #ffffff;
+  --clr-muted:     #8C8378;
+  --clr-legal:     #A99C89;
+  --clr-tile-warm: #e7ddd6;
+  --clr-tile-rose: #e7d3cf;
+  --clr-tile-cool: #c8c2ba;
+  --clr-tile-grey: #b9b4ad;
+
+  --font-base: "Gotham", "Century Gothic", Arial, sans-serif;
+
+  --gutter: clamp(20px, 5vw, 140px);
+
+  /* Caps how wide grid/row-based content (not full-bleed imagery) can
+     grow on very large / 4K screens, so it reads as deliberately
+     composed rather than a stretched-out laptop layout. */
+  --container-max: 2400px;
+
+  /* Fixed logo size — used everywhere the wordmark appears (header,
+     hero, collection pages, mega-menu). Asset is pre-trimmed to its
+     visible bounds, so no offset hacks are needed to position it. */
+  --logo-height: 12px;
+}
+
+/* --- Reset --------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--clr-white);
+  color: var(--clr-black);
+  font-family: var(--font-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: var(--clr-black); }
+
+/* =============================================================
+   COMPONENTS
+   ============================================================= */
+
+/* --- Film-grain overlay -------------------------------------- */
+.cm-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: .13;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* --- Full-bleed image tile ----------------------------------- */
+.cm-tile {
+  position: relative;
+  overflow: hidden;
+}
+
+/* --- Black & white treatment ---------------------------------- */
+.cm-bw {
+  filter: grayscale(100%);
+}
+
+/* --- Nav link (header) --------------------------------------- */
+.cm-nl {
+  font: 500 11px/1 var(--font-base);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s ease;
+}
+.cm-nl:hover { border-bottom-color: currentColor; }
+
+/* --- CTA link ------------------------------------------------ */
+.cm-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 500 11px/1 var(--font-base);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding-bottom: 5px;
+  border-bottom: 1px solid currentColor;
+  transition: opacity .22s ease;
+}
+.cm-cta:hover { opacity: .55; }
+.cm-cta .ar {
+  transition: transform .4s cubic-bezier(.22, .61, .36, 1);
+}
+.cm-cta:hover .ar { transform: translateX(5px); }
+
+/* --- Footer link --------------------------------------------- */
+.cm-fl {
+  display: block;
+  font: 300 11px/1 var(--font-base);
+  letter-spacing: .06em;
+  text-decoration: none;
+  color: var(--clr-black);
+  transition: opacity .22s ease;
+}
+.cm-fl:hover { opacity: .5; }
+
+/* =============================================================
+   FIXED SITE HEADER — slides in on scroll-up, over all sections
+   ============================================================= */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+  color: var(--clr-white);
+  background: linear-gradient(180deg, rgba(34,34,34,.72) 0%, rgba(34,34,34,0) 100%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-100%);
+  transition: transform 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.42s ease;
+}
+
+.site-header--visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.site-header__logo {
+  height: var(--logo-height);
+  width: auto;
+}
+
+.site-header__nav {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+/* Desktop: hide hamburger in site-header */
+.site-header__hamburger { display: none; }
+
+.site-header__hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: #fff;
+  transition: transform .3s ease, opacity .3s ease;
+}
+.site-header__hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.site-header__hamburger.open span:nth-child(2) { opacity: 0; }
+.site-header__hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* =============================================================
+   1 · HERO
+   ============================================================= */
+.hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--clr-tile-cool);
+  z-index: 1;
+}
+
+.hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 34%;
+}
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(34,34,34,.34) 0%,
+    rgba(34,34,34,0)   26%,
+    rgba(34,34,34,0)   44%,
+    rgba(34,34,34,.66) 100%
+  );
+}
+
+.hero__header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+  color: var(--clr-white);
+}
+
+/* Nav logo — hidden until wordmark animation completes. */
+.hero__logo {
+  height: var(--logo-height);
+  width: auto;
+  opacity: 0; /* JS fades this in at end of wordmark animation */
+}
+
+.hero__nav {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+/* Wordmark — left-aligned, animates to nav on scroll */
+.hero__wordmark {
+  position: absolute;
+  top: 50%;
+  left: var(--gutter);
+  transform: translateY(-50%);
+  transform-origin: left center;
+  font: 700 clamp(32px, 4.5vw, 65px) var(--font-base);
+  letter-spacing: .12em; /* tuned to match logo proportions */
+  text-transform: uppercase;
+  color: var(--clr-white);
+  white-space: nowrap;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* =============================================================
+   POST-HERO SECTIONS — stack above sticky hero
+   ============================================================= */
+.lookbook,
+.banner,
+.split,
+.atelier,
+.footer {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =============================================================
+   2 · LOOKBOOK
+   ============================================================= */
+.lookbook {
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 72px 0 40px;
+  background: var(--clr-white);
+}
+
+.lookbook__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 var(--gutter) 40px;
+}
+
+.lookbook__title {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+}
+
+.lookbook__hint {
+  font: 500 11px/1 var(--font-base);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+
+.lookbook__track {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  padding: 0 var(--gutter) 24px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+  scrollbar-width: none;
+}
+.lookbook__track::-webkit-scrollbar { display: none; }
+
+.lookbook__card {
+  flex: none;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.lookbook__card-img-wrap {
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  height: calc(100% - 44px);
+  width: auto;
+  background: var(--clr-tile-warm);
+}
+
+.lookbook__card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lookbook__caption {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font: 300 11px/1 var(--font-base);
+  letter-spacing: .04em;
+  color: var(--clr-muted);
+}
+
+.lookbook__caption-name {
+  color: var(--clr-black);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Scroll-progress bar */
+.lookbook__progress {
+  position: relative;
+  height: 2px;
+  background: rgba(34,34,34,.12);
+  margin: 26px var(--gutter) 0;
+}
+
+.lookbook__thumb {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 30%;
+  background: rgba(34,34,34,.55);
+  transition: left .05s linear, width .05s linear;
+}
+
+/* =============================================================
+   3 · FULLSCREEN BANNER (generic)
+   ============================================================= */
+.banner {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--clr-tile-grey);
+}
+
+.banner--half { height: 50vh; }
+
+.banner__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(34,34,34,.3)  0%,
+    rgba(34,34,34,.05) 40%,
+    rgba(34,34,34,.4)  100%
+  );
+}
+
+.banner__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--gutter);
+}
+
+/* =============================================================
+   4 · SPLIT SCREEN
+   ============================================================= */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  background: var(--clr-white);
+}
+
+.split__tile {
+  position: relative;
+  overflow: hidden;
+  background: var(--clr-tile-warm);
+}
+
+.split__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =============================================================
+   6 · ATELIER MODULE
+   ============================================================= */
+.atelier {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  background: var(--clr-white);
+}
+
+.atelier__image {
+  order: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--clr-tile-rose);
+}
+
+.atelier__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+}
+
+.atelier__text {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 9vh 6vw 9vh var(--gutter);
+}
+
+.atelier__inner { max-width: 480px; }
+
+.atelier__eyebrow {
+  font: 500 11px/1 var(--font-base);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+}
+
+.atelier__body {
+  font-weight: 300;
+  font-size: clamp(13px, 2.4vw, 18px);
+  line-height: 1.5;
+  letter-spacing: -.005em;
+  margin-top: 22px;
+  color: var(--clr-black);
+}
+
+.atelier__cta { margin-top: 26px; }
+
+/* =============================================================
+   7 · FOOTER
+   ============================================================= */
+.footer {
+  background: var(--clr-white);
+  border-top: 1px solid rgba(34,34,34,.12);
+  padding: 96px var(--gutter) 40px;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 2.8fr 1fr 1fr;
+  gap: 48px;
+}
+
+/* Newsletter */
+.footer__newsletter {
+  max-width: 280px;
+}
+
+.footer__newsletter-heading {
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.1;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  white-space: nowrap;
+}
+
+.footer__newsletter-body {
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 16px;
+  color: var(--clr-muted);
+}
+
+.footer__form {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 34px;
+  border-bottom: 1px solid rgba(34,34,34,.28);
+  padding-bottom: 12px;
+}
+
+.footer__input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: 300 11px/1 var(--font-base);
+  color: var(--clr-black);
+  letter-spacing: .01em;
+}
+
+.footer__submit {
+  color: var(--clr-black);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-decoration: none;
+  opacity: .4;
+  transition: opacity .22s ease;
+}
+.footer__submit:hover { opacity: .8; }
+
+/* Nav columns */
+.footer__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+/* Wordmark */
+.footer__wordmark {
+  display: block;
+  margin-top: 80px;
+  width: 100%;
+}
+
+/* Legal row */
+.footer__legal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 36px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(34,34,34,.1);
+}
+
+.footer__legal-nav {
+  display: flex;
+  gap: 28px;
+}
+
+.footer__legal-link {
+  color: var(--clr-legal);
+  font-size: 9px;
+}
+
+.footer__copyright {
+  font: 300 9px/1 var(--font-base);
+  letter-spacing: .06em;
+  color: var(--clr-legal);
+}
+
+/* =============================================================
+   HAMBURGER + NAV OVERLAY (mobile + tablet)
+   ============================================================= */
+
+/* Desktop: hide burger */
+.hero__hamburger { display: none; }
+
+.hero__hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: #fff;
+  transition: transform .3s ease, opacity .3s ease;
+}
+.hero__hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.hero__hamburger.open span:nth-child(2) { opacity: 0; }
+.hero__hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Collection-header / contact-header burger (dark bars — sits on white bg) */
+.collection-header__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+.collection-header__hamburger span {
+  display: block;
+  width: 22px;
+  height: 1px;
+  background: var(--clr-black);
+  transition: transform .3s ease, opacity .3s ease;
+}
+.collection-header__hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.collection-header__hamburger.open span:nth-child(2) { opacity: 0; }
+.collection-header__hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Shared trigger: collapse to hamburger on BOTH tablet and mobile (≤1024px).
+   Section-specific sizing (heights, spacing) stays in its own breakpoint
+   block further down — this block only ever touches nav visibility. */
+@media (max-width: 1024px) {
+  .site-header__nav,
+  .hero__nav,
+  .collection-header__nav { display: none; }
+
+  .site-header__hamburger,
+  .hero__hamburger,
+  .collection-header__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 200;
+  }
+
+  .mobile-nav { display: flex; pointer-events: none; }
+  .mobile-nav.open { pointer-events: all; }
+}
+
+/* Mobile nav overlay */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #222;
+  z-index: 150;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 var(--gutter) 15vh;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.mobile-nav.open { opacity: 1; }
+
+.mobile-nav a {
+  font: 300 clamp(22px, 4.2vw, 28px)/1.2 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  transition: opacity .2s ease;
+}
+.mobile-nav a:first-child { border-top: 1px solid rgba(255,255,255,.1); }
+.mobile-nav a:hover { opacity: .5; }
+
+/* Collections sub-items in mobile nav */
+.mobile-nav__label {
+  display: block;
+  font: 500 12px/1 var(--font-base);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.45);
+  padding: 18px 0 6px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.mobile-nav a.mobile-nav__sub {
+  font-size: clamp(18px, 3.4vw, 22px);
+  padding: 10px 0 10px 14px;
+  border-bottom: none;
+}
+
+/* Desktop "Collections" hover mega-menu (Khaite-style: list left, previews right) */
+.cm-nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.cm-nav-dropdown > .cm-nl {
+  cursor: default;
+}
+.cm-mega-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--clr-white);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 18px 40px rgba(0,0,0,.14);
+  transition: opacity .22s ease, transform .22s ease;
+  transform: translateY(-6px);
+  z-index: 120;
+}
+.cm-nav-dropdown:hover .cm-mega-menu,
+.cm-nav-dropdown:focus-within .cm-mega-menu {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.cm-mega-menu__topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+}
+.cm-mega-menu__topbar img {
+  height: var(--logo-height);
+  width: auto;
+}
+.cm-mega-menu__topbar nav { display: flex; gap: 36px; align-items: center; }
+.cm-nl.is-active { border-bottom-color: currentColor; }
+
+/* Only one underline visible at a time: while hovering anywhere in
+   a nav row, the is-active link's underline steps aside unless it
+   is itself the one being hovered */
+.collection-header__nav:hover .cm-nl.is-active:not(:hover),
+.site-header__nav:hover .cm-nl.is-active:not(:hover),
+.hero__nav:hover .cm-nl.is-active:not(:hover),
+.cm-mega-menu__topbar nav:hover .cm-nl.is-active:not(:hover) {
+  border-bottom-color: transparent;
+}
+.cm-mega-menu__body {
+  display: flex;
+  gap: 80px;
+  padding: 8px var(--gutter) 64px;
+}
+
+.cm-mega-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 120px;
+}
+.cm-mega-menu__list a {
+  font: 500 12px/1 var(--font-base);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  text-decoration: none;
+  opacity: .7;
+  transition: opacity .2s ease;
+}
+.cm-mega-menu__list a:hover { opacity: 1; }
+.cm-mega-menu__previews {
+  display: flex;
+  gap: 20px;
+}
+.cm-mega-menu__preview { width: 200px; text-decoration: none; display: block; }
+.cm-mega-menu__preview img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  background: var(--clr-tile-warm);
+}
+.cm-mega-menu__preview span {
+  display: block;
+  margin-top: 10px;
+  font: 500 10px/1 var(--font-base);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+}
+
+/* Lookbook caption toggles — desktop default */
+.lookbook__caption-short  { display: none; }
+.lookbook__caption-full   { display: inline; }
+/* Lookbook hint — mobile label hidden on desktop */
+.lookbook__hint-mobile    { display: none; }
+
+/* Campaign banner — desktop object-position (moved out of inline style) */
+.banner__img--campaign { object-position: 50% 22%; }
+
+/* =============================================================
+   RESPONSIVE — TABLET (769px – 1024px)
+   ============================================================= */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root { --gutter: 4vw; }
+
+  /* Section heights — from EB */
+  .hero         { height: 60vh; }
+  .banner       { height: 60vh; }
+  .banner--half { height: 40vh; }
+  .split        { height: 60vh; }
+
+  /* Lookbook — auto height */
+  .lookbook {
+    height: auto;
+    padding: 56px 0 32px;
+  }
+  .lookbook__card-img-wrap {
+    height: 46vw;
+    width: auto;
+  }
+
+  /* Atelier — same height as split screen */
+  .atelier {
+    height: 60vh;
+    min-height: unset;
+  }
+  .atelier__image img { object-position: 50% 100%; }
+  .atelier__text {
+    padding: 6vh 4vw 6vh var(--gutter);
+    overflow-y: auto;
+  }
+
+  /* Footer — 3-column, tighter gap */
+  .footer__grid {
+    grid-template-columns: 2.8fr 1fr 1fr;
+    gap: 24px;
+  }
+  .footer__newsletter {
+    max-width: 310px;
+  }
+  .footer__newsletter-body { white-space: nowrap; }
+}
+
+/* =============================================================
+   RESPONSIVE — MOBILE (≤768px)
+   ============================================================= */
+@media (max-width: 768px) {
+  :root { --gutter: 24px; }
+
+  /* Mobile: no hero logo animation. The desktop pattern (large wordmark
+     over the hero that shrinks into the nav on scroll) is disabled
+     entirely — logo sits small and static in a single stable header
+     from first paint, exactly like the reveal-header already used
+     elsewhere in the design. */
+  .hero__wordmark { display: none; }
+  .hero__header    { display: none; }
+
+  .site-header {
+    opacity: 1;
+    pointer-events: all;
+    transform: none;
+  }
+
+  /* Collection / contact header — same compact treatment as the
+     mobile hero header */
+  .collection-header { padding: 20px var(--gutter); }
+
+  /* Section heights — from EB */
+  .hero         { height: 70vh; }
+  .banner       { height: 70vh; }
+  .banner--half { height: 35vh; }
+  .split        { height: 40vh; }
+
+  /* Hero scroll indicator hidden on mobile (hero__header itself is
+     display:none above — logo/nav now live in the persistent
+     site-header instead) */
+  .hero__scroll { display: none; }
+
+  /* Split — side by side, focus to inner edges */
+  .split__tile:first-child img { object-position: right center; }
+  .split__tile:last-child  img { object-position: left center; }
+
+  /* Lookbook — auto height */
+  .lookbook {
+    height: auto;
+    padding: 48px 0 28px;
+  }
+  .lookbook__card-img-wrap {
+    height: 56vw;
+    width: auto;
+  }
+
+  /* Lookbook hint — show SWIPE label, hide desktop label */
+  .lookbook__hint-scroll,
+  .lookbook__hint-dot,
+  .lookbook__hint-count { display: none; }
+  .lookbook__hint-mobile { display: inline; }
+
+  /* Lookbook captions — short name only, no color */
+  .lookbook__caption-full  { display: none; }
+  .lookbook__caption-short { display: inline; }
+  .lookbook__caption-color { display: none; }
+
+  /* Campaign banner — portrait image, shift down to crop red tile at top */
+  .banner--campaign .banner__img--campaign { object-position: 50% 65%; }
+
+  /* Atelier — stacked, image 40vh + text 40vh below */
+  .atelier {
+    grid-template-columns: 1fr;
+    grid-template-rows: 40vh 40vh;
+    height: auto;
+    min-height: unset;
+  }
+  .atelier__image {
+    order: 1;
+    height: 40vh;
+  }
+  .atelier__image img { object-position: 50% 100%; }
+  .atelier__text {
+    order: 2;
+    height: 40vh;
+    padding: 5vh var(--gutter);
+    justify-content: center;
+    overflow-y: auto;
+  }
+  .atelier__inner { max-width: 100%; }
+  .atelier__body {
+    margin-top: 14px;
+  }
+  .atelier__cta { margin-top: 16px; }
+
+  /* Bottom BW banner — right-align image */
+  .banner--bw .banner__img { object-position: right center; }
+
+  /* Footer — newsletter full width top, nav cols side by side below */
+  .footer {
+    padding: 64px var(--gutter) 40px;
+  }
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .footer__newsletter {
+    grid-column: 1 / -1;
+  }
+  /* More breathing room for "Book An Appointment" + space above nav cols */
+  .footer__nav {
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .cm-fl { line-height: 1.5; }
+
+  /* Wordmark */
+  .footer__wordmark { margin-top: 56px; }
+
+  .footer__legal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+/* =============================================================
+   COLLECTION SUBPAGE (AW26 / SS27)
+   ============================================================= */
+.collection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+}
+
+.collection-header__logo { height: var(--logo-height); width: auto; }
+
+.collection-header__nav {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  background: var(--clr-white);
+}
+
+.collection-grid__item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  background: var(--clr-tile-warm);
+}
+
+.collection-grid__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter .5s ease, transform .5s ease;
+}
+
+.collection-grid__logo {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36%;
+  max-width: 180px;
+  transition: opacity .4s ease;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.25));
+}
+
+/* Desktop / true hover devices: start B/W, reveal colour + logo on hover.
+   Scoped to (hover:hover)+(pointer:fine) so touch devices never inherit
+   a "hidden until interaction" state for information that must be
+   visible immediately (colour, logo). */
+@media (hover: hover) and (pointer: fine) {
+  .collection-grid__photo { filter: grayscale(100%); }
+  .collection-grid__logo  { opacity: 0; }
+
+  .collection-grid__item:hover .collection-grid__photo {
+    filter: grayscale(0%);
+    transform: scale(1.02);
+  }
+  .collection-grid__item:hover .collection-grid__logo { opacity: .9; }
+}
+
+/* Tablet + mobile (no reliable hover): colour + logo visible from the
+   first paint, never gated behind an interaction. A very subtle tap
+   response only — no re-creation of the desktop hover. */
+@media (hover: none), (pointer: coarse) {
+  .collection-grid__photo { filter: grayscale(0%); }
+  .collection-grid__logo  { opacity: .9; }
+
+  .collection-grid__item:active .collection-grid__photo { transform: scale(0.99); }
+}
+
+.collection-empty {
+  padding: 14vh var(--gutter) 20vh;
+  text-align: center;
+}
+
+.collection-empty__eyebrow {
+  display: block;
+  font: 500 11px/1 var(--font-base);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+  margin-bottom: 18px;
+}
+
+.collection-empty__title {
+  font: 300 clamp(28px, 4vw, 40px)/1.1 var(--font-base);
+  letter-spacing: .04em;
+  color: var(--clr-black);
+}
+
+@media (max-width: 768px) {
+  .collection-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =============================================================
+   CONTACT PAGE
+   ============================================================= */
+.contact-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 5vw;
+  padding: 0 0 0 var(--gutter);
+}
+
+.contact-layout__col { display: flex; flex-direction: column; }
+
+.contact-layout__col--text {
+  flex: 0 0 42%;
+  gap: 10vh;
+}
+
+.contact-layout__col--img {
+  flex: 1;
+  gap: 10vh;
+}
+
+.contact__inner {
+  padding-top: 8vh;
+  max-width: 460px;
+}
+
+.contact__heading {
+  font: 400 13px/1.3 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  margin-bottom: 28px;
+}
+
+.contact__subheading {
+  display: block;
+  font: 400 12px/1.3 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  margin-bottom: 4px;
+}
+
+.contact__body {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: -.005em;
+  color: var(--clr-black);
+  margin-bottom: 26px;
+}
+.contact__body:last-child { margin-bottom: 0; }
+
+.contact__cta {
+  color: var(--clr-black);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s ease;
+}
+.contact__cta:hover { border-bottom-color: currentColor; }
+
+.contact-layout__img {
+  overflow: hidden;
+  background: var(--clr-tile-cool);
+}
+.contact-layout__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.contact-layout__img--a { aspect-ratio: 4 / 5; }
+.contact-layout__img--b { aspect-ratio: 5 / 4; }
+.contact-layout__img--c { aspect-ratio: 4 / 5; }
+
+@media (max-width: 900px) {
+  .contact-layout { flex-direction: column; gap: 6vh; padding: 6vh var(--gutter) 16vh; }
+  .contact-layout__col--text,
+  .contact-layout__col--img { flex: 1 1 auto; width: 100%; }
+  .contact__inner { padding-top: 4vh; max-width: 100%; }
+}
+
+/* =============================================================
+   ABOUT PAGE — two full-height rows. Each row is a simple flex
+   row in DOM order (image-then-text or text-then-image), so the
+   visual left/right side is controlled purely by markup order,
+   no row-reverse needed. Every photo is a full 100vh.
+   ============================================================= */
+.about-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: flex-start;
+}
+
+/* First row sits right under the header — match the header's own
+   top padding (34px) instead of a viewport-relative value */
+.about-row:first-of-type { padding-top: 0; }
+
+/* Text cell carries its own gutter as inner padding, so the grid
+   column boundary itself stays exactly at 50%, and the image cell
+   (0 padding) fills its half edge-to-edge with no overlap or gap */
+.about-row__text { padding: 0 var(--gutter); }
+.about-row__img  { height: 100vh; overflow: hidden; background: var(--clr-tile-cool); }
+
+.about-row__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-row .contact__inner { max-width: 640px; }
+
+.about-row--last .about-row__text { padding-bottom: 10vh; }
+
+/* Showroom line closes row 3 as a regular paragraph, set slightly apart */
+.about-showrooms { margin-top: 40px; }
+
+@media (max-width: 900px) {
+  .about-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .about-row__text {
+    padding: 6vh var(--gutter);
+  }
+  .about-row__img { height: 70vh; }
+}
+
+/* Brand DNA — structured fact list, now placed inside row 2 next
+   to the image */
+.brand-dna__list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.brand-dna__row {
+  display: flex;
+  gap: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(34,34,34,.1);
+}
+.brand-dna__row dt {
+  flex: 0 0 150px;
+  font: 400 12px/1.5 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+.brand-dna__row dd {
+  flex: 1;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: -.005em;
+  color: var(--clr-black);
+}
+
+@media (max-width: 640px) {
+  .brand-dna__row { flex-direction: column; gap: 6px; }
+  .brand-dna__row dt { flex: none; }
+}
+
+/* =============================================================
+   RESPONSIVE — LARGE DESKTOP / 4K (≥1600px)
+   ============================================================= */
+/* Full-bleed sections (hero, banner, split, atelier image) are left
+   untouched on purpose — immersive edge-to-edge imagery is part of
+   the existing editorial design and should stay that way even on
+   very large screens. Only row/grid-based content that would
+   otherwise balloon into oversized individual items or huge empty
+   gaps gets a centred max-width, so the layout still reads as
+   deliberately composed rather than a stretched laptop view. */
+@media (min-width: 1600px) {
+  .site-header,
+  .hero__header,
+  .collection-header,
+  .cm-mega-menu__topbar,
+  .cm-mega-menu__body,
+  .collection-grid,
+  .lookbook__header,
+  .lookbook__track,
+  .footer__grid,
+  .contact-layout {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Grid items themselves are already capped by the container above;
+     the aspect-ratio keeps photos proportionate at any column width. */
+  .collection-grid { width: 100%; }
+}
+
+/* =================================================================
+   LEGAL PAGES — Imprint, Privacy Policy, Terms & Conditions
+   Long-form text, single readable column, consistent with the
+   contact__heading / contact__body type scale used site-wide.
+   ============================================================= */
+.legal-page {
+  padding: 8vh var(--gutter) 18vh;
+  max-width: 760px;
+}
+
+.legal-page__meta {
+  font-weight: 300;
+  font-size: 12px;
+  color: var(--clr-muted);
+  margin-bottom: 48px;
+}
+
+.legal-page h2 {
+  font: 400 13px/1.3 var(--font-base);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--clr-black);
+  margin: 48px 0 16px;
+}
+.legal-page h2:first-of-type { margin-top: 0; }
+
+.legal-page p,
+.legal-page li {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: -.005em;
+  color: var(--clr-black);
+  margin-bottom: 16px;
+}
+
+.legal-page ul {
+  padding-left: 20px;
+  margin: -4px 0 16px;
+}
+.legal-page li { margin-bottom: 6px; }
+
+.legal-page address { font-style: normal; }
+
+.legal-page a {
+  color: var(--clr-black);
+  border-bottom: 1px solid currentColor;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .legal-page { padding: 6vh var(--gutter) 12vh; }
+}
+
+/* --- Logo links (index hero + sticky header) ------------------ */
+.hero__logo-link,
+.site-header__logo-link {
+  display: flex;
+  line-height: 0;
+}
+
+/* --- Footer: Instagram CTA (replaces newsletter form until Klaviyo is live) */
+.footer__form--ig {
+  color: var(--clr-black);
+  text-decoration: none;
+}
+.footer__form--ig .footer__input { white-space: nowrap; }
+.footer__form--ig:hover .footer__submit,
+.footer__form--ig:focus-visible .footer__submit { opacity: .8; }
+
+/* --- About: inline links (showrooms) --------------------------- */
+.about-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(34,34,34,.3);
+  transition: border-color .3s ease;
+}
+.about-link:hover { border-bottom-color: currentColor; }
+
+/* --- Homepage B/W reveal (mirrors .collection-grid behaviour) ---
+   .cm-reveal         = hover container (hero, product card, split tile, banner)
+   .cm-reveal__photo  = image that goes B/W -> colour
+   .cm-reveal__logo   = optional centred logo (not used in hero + product row) */
+.cm-reveal__photo {
+  transition: filter .5s ease, transform .5s ease;
+}
+
+/* Doubled class: .split__tile img (width/height 100% + cover) would
+   otherwise win and stretch the logo across the whole tile. */
+.cm-reveal .cm-reveal__logo {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36%;
+  height: auto;
+  object-fit: contain;
+  max-width: 180px;
+  z-index: 3;
+  pointer-events: none;
+  transition: opacity .4s ease;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.25));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cm-reveal__photo { filter: grayscale(100%); }
+  .cm-reveal__logo  { opacity: 0; }
+
+  .cm-reveal:hover .cm-reveal__photo {
+    filter: grayscale(0%);
+    transform: scale(1.02);
+  }
+  .cm-reveal:hover .cm-reveal__logo { opacity: .9; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cm-reveal__photo { filter: grayscale(0%); }
+  .cm-reveal__logo  { opacity: .9; }
+}
+
+/* Images that stay B/W permanently (logo still reveals) */
+.cm-reveal__photo.cm-bw { filter: grayscale(100%) !important; }
+
+/* --- Touch devices: scroll-focus reveal ---------------------------
+   .cm-io is set by JS only when IntersectionObserver is available,
+   so without JS everything stays in colour (safe fallback).
+   .is-focus = item currently in the centre band of the viewport.    */
+@media (max-width: 1366px) and (hover: none), (max-width: 1366px) and (pointer: coarse) {
+  .cm-io .cm-reveal__photo,
+  .cm-io .collection-grid__photo { filter: grayscale(100%); }
+
+  .cm-io .cm-reveal__logo,
+  .cm-io .collection-grid__logo  { opacity: 0; }
+
+  .cm-io .is-focus .cm-reveal__photo,
+  .cm-io .is-focus .collection-grid__photo { filter: grayscale(0%); }
+
+  .cm-io .is-focus .cm-reveal__logo,
+  .cm-io .is-focus .collection-grid__logo  { opacity: .9; }
+}
+
+/* =============================================================
+   MOBILE / TABLET FIXES (appended last so they win the cascade)
+   ============================================================= */
+
+/* Mobile nav: the base .mobile-nav {display:none} and
+   .collection-header__nav {display:flex} rules sit later in the file
+   than the ≤1024px block, so they overrode it (menu never appeared,
+   desktop nav showed on mobile sub-pages). Re-asserted here. */
+@media (max-width: 1024px) {
+  .collection-header__nav { display: none; }
+
+  .mobile-nav {
+    display: flex;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility 0s linear .3s;
+  }
+  .mobile-nav.open {
+    visibility: visible;
+    transition: opacity .3s ease, visibility 0s linear 0s;
+  }
+
+  body.nav-open { overflow: hidden; }
+}
+
+/* iOS / Android: size full-height sections to the small viewport so
+   they don't jump when the browser toolbar collapses on scroll. */
+@supports (height: 100svh) {
+  .hero, .banner, .split, .about-row__img { height: 100svh; }
+  .banner--half { height: 50svh; }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .hero, .banner, .split { height: 60svh; }
+    .banner--half { height: 40svh; }
+  }
+  @media (max-width: 900px) {
+    .about-row__img { height: 70svh; }
+  }
+  @media (max-width: 768px) {
+    .hero, .banner { height: 70svh; }
+    .banner--half  { height: 35svh; }
+    .split         { height: 40svh; }
+  }
+}
+
+/* Sub-page hamburger: dark lines would vanish on the dark overlay */
+@media (max-width: 1024px) {
+  .collection-header__hamburger { position: relative; }
+  .collection-header__hamburger.open span { background: #fff; }
+}
+
+/* =============================================================
+   MOBILE / TABLET / LARGE SCREEN — Paket B
+   ============================================================= */
+
+/* 1 · Sub-pages: header stays visible while scrolling (≤1024px) */
+@media (max-width: 1024px) {
+  .collection-header {
+    position: sticky;
+    top: 0;
+    z-index: 120;
+    background: var(--clr-white);
+  }
+}
+
+/* 2 · Mobile: full-width banners match the split height, so the
+       landscape images are cropped far less */
+@media (max-width: 768px) {
+  .banner { height: 40vh; }
+}
+@supports (height: 100svh) {
+  @media (max-width: 768px) {
+    .banner { height: 40svh; }
+  }
+}
+
+/* 3 · About, mobile: text before image in row 2
+       (reads text, image, text, image instead of two images in a row) */
+@media (max-width: 900px) {
+  .about-row + .about-row .about-row__text { order: -1; }
+  .about-row--last .about-row__text { padding-bottom: 6vh; }
+}
+
+/* 5 · Large screens: cap the product row so 4–5 cards stay visible */
+@media (min-width: 1600px) {
+  .lookbook { height: min(100vh, 860px); }
+}
+
+/* 6 · Large screens: four columns in the collection grid */
+@media (min-width: 1920px) {
+  .collection-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* 7 · Large screens: small UI type scales from 11px (1920px)
+       up to 14px (2560px and wider) */
+@media (min-width: 1920px) {
+  :root { --ui-fs: clamp(11px, calc(11px + (100vw - 1920px) * .0046875), 14px); }
+
+  .cm-nl,
+  .cm-cta,
+  .cm-fl,
+  .lookbook__hint,
+  .lookbook__caption,
+  .footer__newsletter-heading,
+  .footer__newsletter-body,
+  .footer__input,
+  .footer__submit { font-size: var(--ui-fs); }
+
+  .footer__legal-link,
+  .footer__copyright { font-size: calc(var(--ui-fs) - 1px); }
+}
+
+/* 8 · Large screens: wordmark + legal row share the footer container */
+@media (min-width: 1600px) {
+  .footer__wordmark,
+  .footer__legal {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Mobile sub-page header: the intended 20px padding (≤768 block) was
+   overridden by the base .collection-header rule further down. */
+@media (max-width: 768px) {
+  .collection-header { padding: 20px var(--gutter); }
+}
+
+/* Mobile/tablet homepage header: logo centred on the burger line,
+   same 20px padding as the sub-page header so nothing jumps between pages */
+@media (max-width: 1024px) {
+  .site-header { align-items: center; }
+}
+@media (max-width: 768px) {
+  .site-header { padding: 20px var(--gutter); }
+}
+
+/* =============================================================
+   MOBILE MENU — Khaite-style overlay (≤1024px)
+   White full-screen panel, logo left + close right on the exact
+   header line, sentence-case items with chevrons, Collections
+   drills into a sub-panel.
+   ============================================================= */
+.cm-menu { display: none; }
+
+@media (max-width: 1024px) {
+  .cm-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: var(--clr-white);
+    color: var(--clr-black);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility 0s linear .3s;
+  }
+  .cm-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .3s ease, visibility 0s linear 0s;
+  }
+}
+
+/* Top bar mirrors the page header so logo and X sit exactly where
+   logo and burger were */
+.cm-menu__top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 34px var(--gutter);
+}
+@media (max-width: 768px) {
+  .cm-menu__top { padding: 20px var(--gutter); }
+}
+
+.cm-menu__logo { display: flex; line-height: 0; }
+.cm-menu__logo img { height: var(--logo-height); width: auto; }
+
+.cm-menu__close {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--clr-black);
+}
+.cm-menu__close span {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+}
+.cm-menu__close span:nth-child(1) { transform: translate(-50%, -50%) rotate(45deg); }
+.cm-menu__close span:nth-child(2) { transform: translate(-50%, -50%) rotate(-45deg); }
+
+/* Sliding panels */
+.cm-menu__viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.cm-menu__track {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  transition: transform .4s cubic-bezier(.4, 0, .2, 1);
+}
+.cm-menu.is-sub .cm-menu__track { transform: translateX(-50%); }
+
+.cm-menu__panel {
+  width: 50%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 16px var(--gutter) 40px;
+  box-sizing: border-box;
+}
+
+.cm-menu__list { list-style: none; margin: 0; padding: 0; }
+
+.cm-menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 18px 0;
+  background: none;
+  border: 0;
+  font: 400 15px/1.3 var(--font-base);
+  letter-spacing: .01em;
+  text-transform: none;
+  text-align: left;
+  text-decoration: none;
+  color: var(--clr-black);
+  cursor: pointer;
+  transition: opacity .2s ease;
+}
+.cm-menu__item:active { opacity: .5; }
+.cm-menu__item[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.cm-menu__chev {
+  flex: none;
+  width: 7px;
+  height: 12px;
+  margin-right: 4px;
+}
+
+/* Back row in the sub-panel */
+.cm-menu__back {
+  justify-content: flex-start;
+  gap: 16px;
+  color: var(--clr-muted);
+  margin-bottom: 8px;
+}
+.cm-menu__back .cm-menu__chev {
+  margin-right: 0;
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-menu, .cm-menu.open, .cm-menu__track { transition: none; }
+}
+
+/* About, mobile: tighter start under the header (was ~85px) */
+@media (max-width: 900px) {
+  .about-row:first-of-type .about-row__text { padding-top: 32px; }
+  .about-row:first-of-type .contact__inner  { padding-top: 0; }
+}
+
+/* Contact, mobile: same 32px start under the header as About,
+   and the first image after the text is hidden (too much imagery) */
+@media (max-width: 900px) {
+  .contact-layout { padding-top: 32px; }
+  .contact-layout .contact__inner { padding-top: 0; }
+  .contact-layout__img--b { display: none; }
+}
+
+/* Contact, mobile: images full-bleed and stacked like About,
+   footer follows directly */
+@media (max-width: 900px) {
+  .contact-layout { padding: 32px 0 0; gap: 0; }
+  .contact-layout__col--text { padding: 0 var(--gutter) 6vh; gap: 0; }
+  .contact-layout__col--img  { gap: 10vh; }  /* same gap as before */
+  .contact-layout__img--a,
+  .contact-layout__img--c { aspect-ratio: auto; height: 70vh; }
+}
+@supports (height: 100svh) {
+  @media (max-width: 900px) {
+    .contact-layout__img--a,
+    .contact-layout__img--c { height: 70svh; }
+  }
+}
+
+/* Footer, mobile: Instagram CTA reduced to an underlined "Follow",
+   left-aligned; footer e-mail link removed (it's on the Contact page) */
+@media (max-width: 768px) {
+  .footer__form--ig {
+    display: inline-flex;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .footer__form--ig .footer__input { display: none; }
+  .footer__form--ig .footer__submit {
+    font-size: 11px;
+    opacity: 1;
+    padding-bottom: 4px;
+    border-bottom: 1px solid currentColor;
+  }
+  .footer__nav a[href^="mailto:"] { display: none; }
+}
+
+/* =============================================================
+   HEADER — hide on scroll-down, return on scroll-up
+   ============================================================= */
+/* Sub-pages, all screen sizes */
+.collection-header {
+  position: sticky;
+  top: 0;
+  z-index: 120;
+  background: var(--clr-white);
+  transition: transform .42s cubic-bezier(.4, 0, .2, 1);
+}
+/* transform only in the hidden state: a transform on the visible
+   header would re-anchor the fixed mega menu inside it */
+.collection-header.is-hidden { transform: translateY(-100%); }
+
+/* Homepage, mobile: header no longer forced visible — JS toggles
+   .site-header--visible (desktop/tablet already worked this way) */
+@media (max-width: 768px) {
+  .site-header {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+  }
+  .site-header.site-header--visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: none;
+  }
+}
+
+/* About + Contact (mobile + tablet ≤1024px): show the full image,
+   natural aspect ratio, no cropping */
+@media (max-width: 1024px) {
+  .about-row__img,
+  .contact-layout__img--a,
+  .contact-layout__img--b,
+  .contact-layout__img--c {
+    height: auto;
+    aspect-ratio: auto;
+  }
+  .about-row__img img,
+  .contact-layout__img img {
+    height: auto;
+    object-fit: initial;
+  }
+}
+
+/* =============================================================
+   TABLET — Paket C
+   ============================================================= */
+
+/* 1 · Portrait tablets 901–1024px (iPad Pro 13"): About + Contact
+       stacked exactly like smaller tablets / mobile */
+@media (min-width: 901px) and (max-width: 1024px) and (orientation: portrait) {
+  .about-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .about-row__text { padding: 6vh var(--gutter); }
+  .about-row + .about-row .about-row__text { order: -1; }
+  .about-row:first-of-type .about-row__text { padding-top: 32px; }
+  .about-row:first-of-type .contact__inner  { padding-top: 0; }
+  .about-row--last .about-row__text  { padding-bottom: 6vh; }
+
+  .contact-layout { flex-direction: column; gap: 0; padding: 32px 0 0; }
+  .contact-layout__col--text,
+  .contact-layout__col--img { flex: 1 1 auto; width: 100%; }
+  .contact-layout__col--text { padding: 0 var(--gutter) 6vh; gap: 0; }
+  .contact-layout__col--img  { gap: 10vh; }
+  .contact-layout .contact__inner { padding-top: 0; max-width: 100%; }
+  .contact-layout__img--b { display: none; }
+}
+
+/* 2 · Landscape tablets / touch screens 1025–1366px: burger + mobile
+       menu instead of the hover mega menu (no hover on touch) */
+@media (min-width: 1025px) and (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+  .site-header__nav,
+  .hero__nav,
+  .collection-header__nav { display: none; }
+
+  .site-header__hamburger,
+  .hero__hamburger,
+  .collection-header__hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 200;
+  }
+  .site-header { align-items: center; }
+
+  .cm-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: var(--clr-white);
+    color: var(--clr-black);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease, visibility 0s linear .3s;
+  }
+  .cm-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .3s ease, visibility 0s linear 0s;
+  }
+  body.nav-open { overflow: hidden; }
+}
+
+/* 3 · Footer: the simplified version (underlined "Follow", no e-mail)
+       on every device that uses the burger menu */
+@media (min-width: 769px) and (max-width: 1024px),
+       (min-width: 1025px) and (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+  .footer__form--ig {
+    display: inline-flex;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .footer__form--ig .footer__input { display: none; }
+  .footer__form--ig .footer__submit {
+    font-size: 11px;
+    opacity: 1;
+    padding-bottom: 4px;
+    border-bottom: 1px solid currentColor;
+  }
+  .footer__nav a[href^="mailto:"] { display: none; }
+}
+
+/* Menu on wider screens: keep the chevron close to its label */
+@media (min-width: 769px) {
+  .cm-menu__list,
+  .cm-menu__back { max-width: 520px; }
+}
+
+/* Small tablets 601–768px (e.g. iPad mini portrait): splits and banners
+   match the hero height (70svh), like the 769–1024px range where all
+   three already share 60svh. Phones ≤600px keep the compact 40svh. */
+@media (min-width: 601px) and (max-width: 768px) {
+  .split, .banner { height: 70vh; }
+}
+@supports (height: 100svh) {
+  @media (min-width: 601px) and (max-width: 768px) {
+    .split, .banner { height: 70svh; }
+  }
+}
+
+/* Footer, desktop: Instagram handle removed, "Follow" sits left on the
+   long line (burger devices keep the underlined-word version above) */
+.footer__form--ig .footer__input { display: none; }
+.footer__form--ig .footer__submit {
+  font-size: 11px;
+  opacity: 1;
+}
+.footer__form--ig:hover .footer__submit { opacity: .6; }
+
+/* Large screens: the mega menu is a flex column, so the centred
+   max-width containers shrank to their content ("CASHMOSPHERECOLLECTIONS").
+   Give them full width up to the container cap. */
+@media (min-width: 1600px) {
+  .cm-mega-menu__topbar,
+  .cm-mega-menu__body { width: 100%; }
+}
+
+/* Mega menu opened by tap (touch screens with the desktop nav) */
+.cm-nav-dropdown.is-open .cm-mega-menu {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+/* =============================================================
+   LARGE SCREENS — one alignment system
+   Everything (logo, nav, mega menu, text, Contact, footer) aligns to
+   the page gutter, like the About page already did. The 2400px
+   container cap is lifted, so the logo lines up with the About text
+   and the nav has the same distance on the right as the logo on the
+   left. Full-bleed imagery stays edge to edge.
+   ============================================================= */
+@media (min-width: 1600px) {
+  :root { --container-max: none; }
+}
+@media (min-width: 1600px) {
+  /* same flex-column shrink issue as the mega menu */
+  .lookbook__header,
+  .lookbook__track { width: 100%; }
+}
+
+/* =============================================================
+   LARGE SCREENS (≥1367px) — hover logic everywhere
+   Scroll-focus colour is for phones and tablets only. Big screens
+   always use the desktop behaviour: B/W, colour + logo on hover —
+   also on touch-capable large displays / DevTools touch emulation.
+   ============================================================= */
+@media (min-width: 1367px) {
+  .collection-grid__photo,
+  .cm-reveal__photo { filter: grayscale(100%); }
+
+  .collection-grid__logo,
+  .cm-reveal__logo { opacity: 0; }
+
+  .collection-grid__item:hover .collection-grid__photo,
+  .cm-reveal:hover .cm-reveal__photo { filter: grayscale(0%); }
+
+  .collection-grid__item:hover .collection-grid__logo,
+  .cm-reveal:hover .cm-reveal__logo { opacity: .9; }
+}
+
+/* 4K (≥2560px): larger product slider — about 3.5 cards in view */
+@media (min-width: 2560px) {
+  .lookbook { height: auto; }
+  .lookbook__track { flex: none; }
+  .lookbook__card { height: auto; }
+  .lookbook__card-img-wrap {
+    height: auto;
+    width: calc((100vw - var(--gutter)) / 3.5 - 22px);
+  }
+}
+
+/* Mega menu previews: subtle zoom on hover, image stays in its frame */
+.cm-mega-menu__img {
+  overflow: hidden;
+  background: var(--clr-tile-warm);
+}
+.cm-mega-menu__preview img {
+  transition: transform .6s cubic-bezier(.25, .1, .25, 1);
+}
+.cm-mega-menu__preview:hover img,
+.cm-mega-menu__preview:focus-visible img {
+  transform: scale(1.05);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cm-mega-menu__preview img { transition: none; }
+  .cm-mega-menu__preview:hover img,
+  .cm-mega-menu__preview:focus-visible img { transform: none; }
+}
+
+/* =============================================================
+   REDUCED MOTION — for visitors who turned on "Reduce motion"
+   No travelling wordmark, no sliding or zooming. Fades and the
+   B/W -> colour change stay (they don't move anything).
+   ============================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .hero__wordmark { visibility: hidden; }
+  .hero__logo     { opacity: 1 !important; }
+
+  .site-header,
+  .collection-header,
+  .cm-mega-menu,
+  .cm-menu__track { transition: opacity .2s ease !important; }
+
+  .collection-grid__item:hover .collection-grid__photo,
+  .collection-grid__item:active .collection-grid__photo,
+  .cm-reveal:hover .cm-reveal__photo,
+  .cm-mega-menu__preview:hover img { transform: none !important; }
+}
+
+/* <picture> wrappers (WebP + fallback) must not change any layout:
+   the <img> keeps behaving as a direct child of its container */
+picture { display: contents; }
+
+/* Home: every image links to AW26 — a transparent link layer over the
+   image (keeps hover effects and layout untouched) */
+.cm-cover-link {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+.cm-cover-link:focus-visible {
+  outline: 1px solid var(--clr-white);
+  outline-offset: -8px;
+}
+.lookbook__card { position: relative; }
+.lookbook__card .cm-cover-link:focus-visible { outline-color: var(--clr-black); }
+.hero__header { z-index: 5; }   /* nav stays clickable above the hero link */
+
+/* Footer: design & development credit next to the copyright */
+.footer__credit { margin-left: 32px; }
+@media (max-width: 768px) {
+  .footer__credit { display: block; margin: 8px 0 0; }
+}
+
+/* Product slider: always in colour, on every screen size
+   (product shots on light backgrounds look washed out in B/W) */
+.lookbook__card-img-wrap .cm-reveal__photo { filter: none !important; }
+
+/* Banner logo: same size as on the split tiles on every screen
+   (36% of a half-width tile = 18% of the full-width banner) */
+.cm-reveal.banner .cm-reveal__logo,
+.banner.cm-reveal .cm-reveal__logo { width: 18%; }
+
+/* Collection grid, touch: no press-shrink — scaling the photo to 99%
+   exposed the tile background as a light frame around the image */
+.collection-grid__item:active .collection-grid__photo { transform: none; }
+.collection-grid__item { -webkit-tap-highlight-color: transparent; }
+
+/* =============================================================
+   ABOUT — Impressions slider (below row 3)
+   Same visual language as the homepage lookbook: 3:4 tiles,
+   22px gap, thin progress line. Native horizontal scroll with
+   snap; mouse users can drag (JS in about.html).
+   ============================================================= */
+.about-gallery {
+  padding: 12vh 0 10vh;
+  background: var(--clr-white);
+}
+
+.about-gallery__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 var(--gutter) 32px;
+}
+.about-gallery__title { margin-bottom: 0; }
+
+.about-gallery__hint {
+  font: 500 11px/1 var(--font-base);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+.about-gallery__hint-mob { display: none; }
+
+.about-gallery__track {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  padding: 0 var(--gutter);
+  scroll-padding: 0 var(--gutter);
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  cursor: grab;
+  outline: none;
+}
+.about-gallery__track::-webkit-scrollbar { display: none; }
+.about-gallery__track:focus-visible { outline: 1px solid var(--clr-black); outline-offset: 4px; }
+.about-gallery__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+
+.about-gallery__item {
+  flex: none;
+  margin: 0;
+  height: 70vh;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--clr-tile-warm);
+  scroll-snap-align: start;
+}
+.about-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.about-gallery__progress {
+  position: relative;
+  height: 2px;
+  margin: 26px var(--gutter) 0;
+  background: rgba(34,34,34,.12);
+}
+.about-gallery__thumb {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 30%;
+  background: rgba(34,34,34,.55);
+}
+
+@media (max-width: 1024px) {
+  .about-gallery { padding: 8vh 0; }
+  .about-gallery__item { height: 56vh; }
+}
+@media (max-width: 768px) {
+  .about-gallery { padding: 6vh 0; }
+  .about-gallery__header { padding-bottom: 20px; }
+  .about-gallery__item { height: auto; width: 72vw; }
+  .about-gallery__hint-desk { display: none; }
+  .about-gallery__hint-mob { display: inline; }
+}
+@media (hover: none) {
+  .about-gallery__track { cursor: auto; }
+}
+@media (min-width: 1920px) {
+  .about-gallery__hint { font-size: var(--ui-fs); }
+}
+
+/* About, row 1: credit line on the portrait (editorial caption) */
+.about-row__img--captioned { position: relative; margin: 0; }
+.about-caption {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 32px;
+  font: 500 11px/1.5 var(--font-base);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--clr-white);
+  text-shadow: 0 1px 8px rgba(0,0,0,.35);
+}
+.about-caption span {
+  display: block;
+  font-weight: 300;
+  letter-spacing: .08em;
+  opacity: .85;
+}
+@media (max-width: 768px) {
+  .about-caption { bottom: 20px; }
+}
+@media (min-width: 1920px) {
+  .about-caption { font-size: var(--ui-fs); }
+}
