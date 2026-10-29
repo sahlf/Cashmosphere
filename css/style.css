@@ -1190,12 +1190,10 @@ a { color: var(--clr-black); }
 
 .about-row .contact__inner { max-width: 640px; }
 
-.about-row:last-of-type .about-row__text { padding-bottom: 10vh; }
+.about-row--last .about-row__text { padding-bottom: 10vh; }
 
-.about-facts__text {
-  margin-top: 56px;
-  color: var(--clr-muted);
-}
+/* Showroom line closes row 3 as a regular paragraph, set slightly apart */
+.about-showrooms { margin-top: 40px; }
 
 @media (max-width: 900px) {
   .about-row {
@@ -1493,7 +1491,7 @@ a { color: var(--clr-black); }
        (reads text, image, text, image instead of two images in a row) */
 @media (max-width: 900px) {
   .about-row + .about-row .about-row__text { order: -1; }
-  .about-row:last-of-type .about-row__text { padding-bottom: 6vh; }
+  .about-row--last .about-row__text { padding-bottom: 6vh; }
 }
 
 /* 5 · Large screens: cap the product row so 4–5 cards stay visible */
@@ -1796,7 +1794,7 @@ a { color: var(--clr-black); }
   .about-row + .about-row .about-row__text { order: -1; }
   .about-row:first-of-type .about-row__text { padding-top: 32px; }
   .about-row:first-of-type .contact__inner  { padding-top: 0; }
-  .about-row:last-of-type .about-row__text  { padding-bottom: 6vh; }
+  .about-row--last .about-row__text  { padding-bottom: 6vh; }
 
   .contact-layout { flex-direction: column; gap: 0; padding: 32px 0 0; }
   .contact-layout__col--text,
@@ -2039,3 +2037,118 @@ picture { display: contents; }
    exposed the tile background as a light frame around the image */
 .collection-grid__item:active .collection-grid__photo { transform: none; }
 .collection-grid__item { -webkit-tap-highlight-color: transparent; }
+
+/* =============================================================
+   ABOUT — Impressions slider (below row 3)
+   Same visual language as the homepage lookbook: 3:4 tiles,
+   22px gap, thin progress line. Native horizontal scroll with
+   snap; mouse users can drag (JS in about.html).
+   ============================================================= */
+.about-gallery {
+  padding: 12vh 0 10vh;
+  background: var(--clr-white);
+}
+
+.about-gallery__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 var(--gutter) 32px;
+}
+.about-gallery__title { margin-bottom: 0; }
+
+.about-gallery__hint {
+  font: 500 11px/1 var(--font-base);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+}
+.about-gallery__hint-mob { display: none; }
+
+.about-gallery__track {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  padding: 0 var(--gutter);
+  scroll-padding: 0 var(--gutter);
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  cursor: grab;
+  outline: none;
+}
+.about-gallery__track::-webkit-scrollbar { display: none; }
+.about-gallery__track:focus-visible { outline: 1px solid var(--clr-black); outline-offset: 4px; }
+.about-gallery__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+
+.about-gallery__item {
+  flex: none;
+  margin: 0;
+  height: 70vh;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--clr-tile-warm);
+  scroll-snap-align: start;
+}
+.about-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.about-gallery__progress {
+  position: relative;
+  height: 2px;
+  margin: 26px var(--gutter) 0;
+  background: rgba(34,34,34,.12);
+}
+.about-gallery__thumb {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 30%;
+  background: rgba(34,34,34,.55);
+}
+
+@media (max-width: 1024px) {
+  .about-gallery { padding: 8vh 0; }
+  .about-gallery__item { height: 56vh; }
+}
+@media (max-width: 768px) {
+  .about-gallery { padding: 6vh 0; }
+  .about-gallery__header { padding-bottom: 20px; }
+  .about-gallery__item { height: auto; width: 72vw; }
+  .about-gallery__hint-desk { display: none; }
+  .about-gallery__hint-mob { display: inline; }
+}
+@media (hover: none) {
+  .about-gallery__track { cursor: auto; }
+}
+@media (min-width: 1920px) {
+  .about-gallery__hint { font-size: var(--ui-fs); }
+}
+
+/* About, row 1: credit line on the portrait (editorial caption) */
+.about-row__img--captioned { position: relative; margin: 0; }
+.about-caption {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 32px;
+  font: 500 11px/1.5 var(--font-base);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--clr-white);
+  text-shadow: 0 1px 8px rgba(0,0,0,.35);
+}
+.about-caption span {
+  display: block;
+  font-weight: 300;
+  letter-spacing: .08em;
+  opacity: .85;
+}
+@media (max-width: 768px) {
+  .about-caption { bottom: 20px; }
+}
+@media (min-width: 1920px) {
+  .about-caption { font-size: var(--ui-fs); }
+}
